@@ -5,13 +5,13 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Entity : MonoBehaviour,IDameable
+public class Entity : TriBehaviour,IDameable
 {
     [Header("Component")]
     [SerializeField] private Animator animator;
+    [SerializeField] private Slider slider;
     private MainTower mainTower;
 
-    [SerializeField] private Slider slider;
     [Header("Propertise")]
     [SerializeField] private float speed=3;
     [SerializeField] private float health;
@@ -21,8 +21,8 @@ public class Entity : MonoBehaviour,IDameable
     private int currentWaypointIndex = 0;
     private Vector3 dir;
     [SerializeField] protected Transform model;
-    public WayPoint wayPoint;
-    private void Start()
+    [HideInInspector] public WayPoint wayPoint;
+    protected override void Start()
     {   
         currentWaypointIndex = 0;
         waypoints = new List<Transform>();
@@ -32,6 +32,13 @@ public class Entity : MonoBehaviour,IDameable
         RotateModel();
         MoveToNextWaypoint();
     }
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        animator = GetComponentInChildren<Animator>();
+        slider = transform.Find("Canvas").GetComponentInChildren<Slider>();
+        model = transform.Find("Model");
+    }
     public void ReceiveDamage(float dame)
     {
        // throw new System.NotImplementedException();
@@ -39,7 +46,7 @@ public class Entity : MonoBehaviour,IDameable
         slider.value = health;
         if (health<=0)
         {
-            // OnDead();
+            OnDead();
             animator.SetBool("Dead", true);
         }
     }
@@ -69,7 +76,11 @@ public class Entity : MonoBehaviour,IDameable
         }
     }
     private void CreatPath()
-    {   
+    {
+        if (wayPoint==null)
+        {
+            return;
+        }
         waypoints.Add(wayPoint.transform);
         while(true)
         {
@@ -95,6 +106,10 @@ public class Entity : MonoBehaviour,IDameable
     }
     protected virtual void RotateModel()
     {
+        if (waypoints.Count==0)
+        {
+            return;
+        }
         dir = waypoints[currentWaypointIndex].position - transform.position;
         Vector3 convertDir = new Vector3(dir.x, 0, dir.z);
         float angle = Mathf.Atan2(convertDir.z, convertDir.x) * Mathf.Rad2Deg;

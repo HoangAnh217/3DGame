@@ -32,17 +32,6 @@ namespace DissolveExample
             SetValue(value);
         }
 
-        //IEnumerator enumerator()
-        //{
-
-        //    //float value =         while (true)
-        //    //{
-        //    //    Mathf.PingPong(value, 1f);
-        //    //    value += Time.deltaTime;
-        //    //    SetValue(value);
-        //    //    yield return new WaitForEndOfFrame();
-        //    //}
-        //}
 
         public void SetValue(float value)
         {
