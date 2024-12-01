@@ -6567,11 +6567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb50f5acab062f4e90ef9127bd18ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1106315699}
-  spawnPoint: {fileID: 280421759}
-  enemyParent: {fileID: 1424720826}
-  spawnInterval: 2
-  waveInterval: 999
+  waveDataSO: {fileID: 11400000, guid: afa38a6b008849d4ca8667f3cf84e3d2, type: 2}
+  waveInterval: 200
   _wayPoint: {fileID: 696796788}
 --- !u!1 &288789614
 GameObject:
@@ -8640,10 +8637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb50f5acab062f4e90ef9127bd18ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 839205775}
-  spawnPoint: {fileID: 615717042}
-  enemyParent: {fileID: 1424720826}
-  spawnInterval: 1
+  waveDataSO: {fileID: 11400000, guid: 7384287b663aed942a2af52142d52956, type: 2}
   waveInterval: 999
   _wayPoint: {fileID: 935844934}
 --- !u!1 &633984404
@@ -10356,10 +10350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb50f5acab062f4e90ef9127bd18ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 839205775}
-  spawnPoint: {fileID: 836706317}
-  enemyParent: {fileID: 1424720826}
-  spawnInterval: 1.2
+  waveDataSO: {fileID: 11400000, guid: b9e16ed7fd8719c46abb69207fcea471, type: 2}
   waveInterval: 999
   _wayPoint: {fileID: 879497286}
 --- !u!1 &839205775
@@ -10424,9 +10415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7389507113271746821}
   slider: {fileID: 2112526823}
-  speed: 3
-  health: 0
-  dame: 0
+  enemySO: {fileID: 0}
   model: {fileID: 578376448811486335}
   wayPoint: {fileID: 0}
 --- !u!65 &839205779
@@ -17777,12 +17766,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 926046971}
   slider: {fileID: 1262122977}
-  speed: 6
-  health: 200
-  dame: 3
+  enemySO: {fileID: 0}
   model: {fileID: 1993789148}
   wayPoint: {fileID: 0}
-  materials: {fileID: 1431487772}
+  materials: {fileID: 0}
 --- !u!65 &1106315702
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18637,9 +18624,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ea6174f5862ef41abe76d382ea5321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs: []
+  prefabs:
+  - {fileID: 839205776}
+  - {fileID: 1106315700}
   poolObjs: []
-  holder: {fileID: 0}
+  holder: {fileID: 1424720826}
 --- !u!1 &1229771281
 GameObject:
   m_ObjectHideFlags: 0
@@ -20224,126 +20213,6 @@ Transform:
   m_Father: {fileID: 1229011536}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1431487772
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: basic.001 (Instance)
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: e1166fc856db54341bc5b92d11462541, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e1166fc856db54341bc5b92d11462541, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
-    - _Blend: 0
-    - _BlendModePreserveSpecular: 1
-    - _BumpScale: 1
-    - _ClearCoatMask: 0
-    - _ClearCoatSmoothness: 0
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DetailAlbedoMapScale: 1
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
-    - _EnvironmentReflections: 1
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _QueueOffset: 0
-    - _ReceiveShadows: 1
-    - _Smoothness: 0.5
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _SrcBlendAlpha: 1
-    - _Surface: 0
-    - _UVSec: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  m_BuildTextureStacks: []
 --- !u!4 &1435736107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7236210261912132742, guid: 3a22cb3b07fe55649bf912cc045f0a04, type: 3}
@@ -24068,7 +23937,7 @@ RectTransform:
   m_GameObject: {fileID: 2127764691}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 259725428}
@@ -35318,7 +35187,6 @@ GameObject:
   - component: {fileID: 543450652375309694}
   - component: {fileID: 919132148373948357}
   - component: {fileID: 919132148373948358}
-  - component: {fileID: 919132148373948359}
   m_Layer: 8
   m_Name: TurretRocket
   m_TagString: Untagged
@@ -35338,17 +35206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaca13b417e3f342988ad89fab3f3c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireRate: 5
-  _damageAmount: 40
-  _maxShootDistance: 20
+  turretDataSO: {fileID: 11400000, guid: 2496be2647f46b54e80efecd819ae67b, type: 2}
   turretPivot: {fileID: 815146945479276231}
-  isShoot: 1
   rangeAttack: {fileID: 2127764693}
-  radius: 0
-  cost: 20
-  towerLevel: 1
-  upgradeCost: 50
-  plusDame: 50
+  level: 1
   timer: 1
   turretGun: {fileID: 417484770426258460}
   particle: {fileID: 893168047}
@@ -35373,27 +35234,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8142948, y: 4.1709876, z: 4.0100784}
   m_Center: {x: -0.22489834, y: 1.5854938, z: 0.07573509}
---- !u!65 &919132148373948359
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148373948356}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &919132148873521065
 GameObject:
   m_ObjectHideFlags: 0
@@ -35696,17 +35536,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc0ad830f5c5f1741ba6c939b664d3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireRate: 0.2
-  _damageAmount: 5
-  _maxShootDistance: 14
+  turretDataSO: {fileID: 11400000, guid: 84e8adccee6e324418997d244513e0da, type: 2}
   turretPivot: {fileID: 716717091}
-  isShoot: 1
   rangeAttack: {fileID: 202993586}
-  radius: 0
-  cost: 20
-  towerLevel: 1
-  upgradeCost: 50
-  plusDame: 50
+  level: 1
   remnants: {fileID: 42558075}
   layerMask:
     serializedVersion: 2
@@ -37708,18 +37541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2683846739526565595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9091488531287585403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe0fb05fe5135c44bdc9ec77f6ec6f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2689783061726622176
 GameObject:
   m_ObjectHideFlags: 0
@@ -38849,7 +38670,6 @@ Transform:
   m_Children:
   - {fileID: 746647109}
   - {fileID: 5685673849547215375}
-  - {fileID: 8715350784657254778}
   - {fileID: 1319319994}
   m_Father: {fileID: 840682923}
   m_RootOrder: -1
@@ -38866,17 +38686,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2142d92f7da9e1446ba3feb827e37d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireRate: 1.2
-  _damageAmount: 30
-  _maxShootDistance: 9
+  turretDataSO: {fileID: 11400000, guid: cb3bb0f04dbc11941be8c0e15d2e8400, type: 2}
   turretPivot: {fileID: 6392848422202348940}
-  isShoot: 1
   rangeAttack: {fileID: 654304841}
-  radius: 0
-  cost: 20
-  towerLevel: 1
-  upgradeCost: 50
-  plusDame: 50
+  level: 1
   par: {fileID: 8715350784657254779}
 --- !u!65 &4038803972670984026
 BoxCollider:
@@ -41708,7 +41521,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8715350784657254778}
   m_Father: {fileID: 746647109}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43919,7 +43733,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -48804,15 +48618,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8715350784657254789}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.65, z: 2.97}
+  m_LocalRotation: {x: -0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.88333344, z: 0.98999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8715350783342725462}
   - {fileID: 4937538211912074038}
-  - {fileID: 9091488531287585402}
-  m_Father: {fileID: 4038803972670984024}
+  m_Father: {fileID: 6392848422202348940}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8715350784657254779
@@ -48832,7 +48645,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -53713,7 +53526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &8732656923692400002
 GameObject:
   m_ObjectHideFlags: 0
@@ -54008,92 +53821,6 @@ Transform:
   m_Father: {fileID: 4937538211912074038}
   m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9091488531287585401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9091488531287585403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_ImpulseShape: 3
-    m_CustomImpulseShape:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ImpulseDuration: 0.5
-    m_ImpulseType: 1
-    m_DissipationRate: 0.65
-    m_RawSignal: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 40
-    m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: -0.05, z: 0}
---- !u!4 &9091488531287585402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9091488531287585403}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8715350784657254778}
-  m_RootOrder: -2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9091488531287585403
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9091488531287585402}
-  - component: {fileID: 9091488531287585401}
-  - component: {fileID: 2683846739526565595}
-  m_Layer: 8
-  m_Name: Impulse Source
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &9124129246930972185
 Transform:
   m_ObjectHideFlags: 0

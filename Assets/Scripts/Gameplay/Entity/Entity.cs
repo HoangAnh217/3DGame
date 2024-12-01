@@ -13,9 +13,12 @@ public class Entity : TriBehaviour,IDameable
     private MainTower mainTower;
 
     [Header("Propertise")]
-    [SerializeField] private float speed=3;
-    [SerializeField] private float health;
-    [SerializeField] private float dame;
+    /* [SerializeField] private float speed=3;
+     [SerializeField] private float health;
+     [SerializeField] private float dame;
+     [SerializeField] private int moneyForDead = 75;*/
+    [SerializeField] private EnemySO enemySO;
+    private float health;
     [Header("Movement")]
     private List<Transform> waypoints; 
     private int currentWaypointIndex = 0;
@@ -26,11 +29,15 @@ public class Entity : TriBehaviour,IDameable
     {   
         currentWaypointIndex = 0;
         waypoints = new List<Transform>();
-        health = 100f;
+        health = enemySO.health;
         mainTower = MainTower.Instance;
         CreatPath();
         RotateModel();
         MoveToNextWaypoint();
+    }
+    public void SetEnemySO(EnemySO _enemySO)
+    {
+        enemySO = _enemySO;
     }
     protected override void LoadComponent()
     {
@@ -53,12 +60,13 @@ public class Entity : TriBehaviour,IDameable
     public virtual void OnDead()
     {
         EnemySpawner.Instance.Despawm(transform);
+        GameController.instance.ReceiveMoney(enemySO.moneyForDead);
     }
     protected virtual void MoveToNextWaypoint()
     {
         if (currentWaypointIndex < waypoints.Count)
         {
-            transform.DOMove(waypoints[currentWaypointIndex].position, speed)
+            transform.DOMove(waypoints[currentWaypointIndex].position, enemySO.speed)
                 .SetSpeedBased(true).SetEase(Ease.Linear) // Ð?t di chuy?n theo t?c ð?
                 .OnComplete(() =>
                 {
@@ -102,7 +110,7 @@ public class Entity : TriBehaviour,IDameable
         {
             return;
         }
-        mainTower.ReceiveDamage(dame);
+        mainTower.ReceiveDamage(enemySO.dameAttack);
     }
     protected virtual void RotateModel()
     {

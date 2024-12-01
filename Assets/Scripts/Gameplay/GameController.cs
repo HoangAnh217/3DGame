@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     // control flow game
+    private int money = 200;
     public int wave = 1;
     //player data test
     public static GameController instance;
@@ -12,15 +13,15 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        money = 200;
     }
     private void Start()
     {
         ingameManager = UI_IngameManager.instance;
     }
-    private int money = 5000;
-    public void MinusAmountCost(int amountMinus)
+    public void ReceiveMoney(int _money)
     {
-        money-=amountMinus;
+        this.money+= _money;
         ingameManager.UpdateMoney();
     } 
     public int GetMoney()

@@ -7,47 +7,96 @@ using UnityEngine.UI;
 
 public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public bool isShoot = false;
     [SerializeField] protected Image rangeAttack;
-    [SerializeField] private float radius;
     // turret data test 
-    public int cost = 20;
-    public int towerLevel = 1;
-    public int upgradeCost = 50;
-    public float plusDame = 50;
+    [HideInInspector] public int level = 1;
+    /*[HideInInspector] public int cost = 20;
+    [HideInInspector] public int upgradeCost = 50;
+    [HideInInspector] public float plusDame = 50;*/
     //
     // 
 
-    public float GetRadius()
-    {
-        return radius;
-    }
     protected override void Start()
     {
         base.Start();
         rangeAttack.color = Color.green;
         rangeAttack.gameObject.SetActive(false);
+        
         //upgradeUI.SetActive(false);
+        LoadDataFromSO();
+
     }
     protected override void Update()
     {
-        if (!isShoot)
-            return;
        base.Update();
+    }
+    #region LoadComponent
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        rangeAttack = transform.Find("Canvas").Find("Range").GetComponent<Image>();
+       // LoadTurretData();
+    }
+    protected virtual void LoadTurretData()
+    {
+        string path = $"SO/Turret/{GetType().Name}";
+        Debug.Log(path);
+        TurretDataSO turretData = Resources.Load<TurretDataSO>(path);
+
+        if (turretData != null)
+        {
+            // Xử lý dữ liệu turretData tại đây
+            Debug.Log($"Loaded TurretDataSO for {GetType().Name}");
+        }
+        else
+        {
+            Debug.LogError($"Failed to load TurretDataSO at path: {path}");
+        }
+    }
+    public void LoadDataFromSO()
+    {
+        if (turretDataSO != null)
+        {
+           /* cost = turretDataSO.cost;
+            _damageAmount = turretDataSO.damage;
+            _maxShootDistance = turretDataSO.maxShootDistance;
+            upgradeCost = turretDataSO.upgradeCost;
+            _fireRate = turretDataSO.fireRate;*/
+        }
+        else
+        {
+            Debug.LogWarning("TurretDataSO is not assigned!");
+        }
     }
     private void OnValidate()
     {
-        rangeAttack.transform.localScale = Vector3.one*(_maxShootDistance/10);
+        rangeAttack = transform.Find("Canvas").Find("Range").GetComponent<Image>();
+        rangeAttack.transform.localScale = Vector3.one * (turretDataSO.maxShootDistance / 10);
     }
+    #endregion
     public void UpgradeTurret()
     {
-        towerLevel++;
-        _damageAmount += plusDame;
-        Debug.Log("Turret Updated");
+        if (level == 2)
+        {
+            Debug.Log("MaximumLevel");
+        }
+        if (GameController.instance.GetMoney() < turretDataSO.upgradeCost )
+            return;
+        if (turretDataSO.nextLevel != null)
+        {
+            turretDataSO = turretDataSO.nextLevel;
+            level++;
+            LoadDataFromSO();
+            Debug.Log($"Turret upgraded to level {level}");
+        }
+        else
+        {
+            Debug.Log("Turret is already at max level!");
+        }
     }
     protected override bool CheckTarget()
     {
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, _maxShootDistance, LayerMask.GetMask("Enemy"));
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, turretDataSO.maxShootDistance, LayerMask.GetMask("Enemy"));
         if (enemiesInRange.Length > 0)
         {
             enemyTarget = GetNearestEnemy(enemiesInRange);
@@ -96,7 +145,7 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
         }
         else
         {
-            health.ReceiveDamage(_damageAmount);
+            health.ReceiveDamage(turretDataSO.damage);
         }
     }
     protected virtual Vector3 ConvertPos3(Transform pos)
@@ -107,11 +156,11 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
     {
         Gizmos.color = Color.green; // Đặt màu cho Gizmos
         // Vẽ hình tròn bằng cách nối các điểm lại với nhau
-        Vector3 previousPoint = transform.position + new Vector3(_maxShootDistance, 0, 0);
+        Vector3 previousPoint = transform.position + new Vector3(turretDataSO.maxShootDistance, 0, 0);
         for (int i = 1; i <= 100; i++)
         {
             float angle = i * Mathf.PI * 2 / 100; // Góc hiện tại
-            Vector3 newPoint = ConvertPos3(transform) + new Vector3(Mathf.Cos(angle) * _maxShootDistance, 0, Mathf.Sin(angle) * _maxShootDistance);
+            Vector3 newPoint = ConvertPos3(transform) + new Vector3(Mathf.Cos(angle) * turretDataSO.maxShootDistance, 0, Mathf.Sin(angle) * turretDataSO.maxShootDistance);
             Gizmos.DrawLine(previousPoint, newPoint); // Vẽ đường thẳng giữa các điểm
             previousPoint = newPoint;
         }

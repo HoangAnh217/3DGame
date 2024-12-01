@@ -6,7 +6,7 @@ public abstract class Spawner : TriBehaviour
 {
     [SerializeField] protected List<Transform> prefabs;
     [SerializeField] protected List<Transform> poolObjs;
-    [SerializeField] protected Transform holder;
+    [SerializeField] public Transform holder;
     protected override void Reset()
     {
         LoadComponent();

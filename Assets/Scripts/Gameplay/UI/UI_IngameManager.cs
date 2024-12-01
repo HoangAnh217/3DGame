@@ -25,6 +25,7 @@ public class UI_IngameManager : MonoBehaviour
     private void Start()
     {
         gameController = GameController.instance;
+        UpdateMoney();
     }
     public void ShowGrid()
     {

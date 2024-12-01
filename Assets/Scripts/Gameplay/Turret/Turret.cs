@@ -2,25 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Turret : MonoBehaviour
+public abstract class Turret : TriBehaviour
 {
     protected Transform enemyTarget;
     [Header("propertise")]
-    [SerializeField] protected float _fireRate = 0.1f;
+    /*[SerializeField] protected float _fireRate = 0.1f;
     [SerializeField] protected float _damageAmount = 20f;
-    [SerializeField] protected float _maxShootDistance = 10f;
+    [SerializeField] protected float _maxShootDistance = 10f;*/
+    public TurretDataSO turretDataSO;
     [Header("i4 Turret")]
     [SerializeField] protected Transform turretPivot;
 
     // 
     private float timeTillNextShot;
     #region get set 
-    public float GetMaxShootDistance()
+   /* public float GetMaxShootDistance()
     {
         return _maxShootDistance;
-    }
+    }*/
     #endregion
-    protected virtual void Start()
+    protected override void Start()
     {
 
     }
@@ -33,7 +34,7 @@ public abstract class Turret : MonoBehaviour
             if (timeTillNextShot<0)
             {
                 Shoot();
-                timeTillNextShot = _fireRate;
+                timeTillNextShot = turretDataSO.fireRate;
             }
         } 
     }

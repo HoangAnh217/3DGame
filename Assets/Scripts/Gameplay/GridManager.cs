@@ -22,7 +22,6 @@ public class GridManager : MonoBehaviour
         height = 10 * transform.localScale.z;
         int rows = (int)(width / cellSizeX);
         int columns = (int)(height / cellSizeZ);
-        Debug.Log(width + "  " + height);
         gridWidth = cellSizeX*rows;
         gridHeight = cellSizeZ*columns;
         arrBool = new bool[rows, columns];

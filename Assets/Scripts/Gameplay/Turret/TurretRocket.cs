@@ -20,7 +20,7 @@ public class TurretRocket : TurretController
         obj.gameObject.SetActive(true);
         particle.Play();
         yield return new WaitForSeconds(0.5f);
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, _maxShootDistance, LayerMask.GetMask("Enemy"));
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, turretDataSO.maxShootDistance, LayerMask.GetMask("Enemy"));
         foreach (var enemies in enemiesInRange)
         {
             Entity health = enemies.gameObject.GetComponent<Entity>();
@@ -30,7 +30,7 @@ public class TurretRocket : TurretController
             }
             else
             {
-                health.ReceiveDamage(_damageAmount);
+                health.ReceiveDamage(turretDataSO.damage);
             }
         }
         yield return new WaitForSeconds(1.3f);
