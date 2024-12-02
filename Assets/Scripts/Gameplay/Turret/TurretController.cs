@@ -9,90 +9,40 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
 {
     [SerializeField] protected Image rangeAttack;
     // turret data test 
-    [HideInInspector] public int level = 1;
-    /*[HideInInspector] public int cost = 20;
-    [HideInInspector] public int upgradeCost = 50;
-    [HideInInspector] public float plusDame = 50;*/
-    //
-    // 
-
+    /* public int cost = 20;
+     public int towerLevel = 1;
+     public int upgradeCost = 50;
+     public float plusDame = 50;*/
+    private int level = 1;
     protected override void Start()
     {
         base.Start();
         rangeAttack.color = Color.green;
         rangeAttack.gameObject.SetActive(false);
-        
         //upgradeUI.SetActive(false);
-        LoadDataFromSO();
-
     }
     protected override void Update()
     {
        base.Update();
     }
-    #region LoadComponent
-    protected override void LoadComponent()
-    {
-        base.LoadComponent();
-        rangeAttack = transform.Find("Canvas").Find("Range").GetComponent<Image>();
-       // LoadTurretData();
-    }
-    protected virtual void LoadTurretData()
-    {
-        string path = $"SO/Turret/{GetType().Name}";
-        Debug.Log(path);
-        TurretDataSO turretData = Resources.Load<TurretDataSO>(path);
-
-        if (turretData != null)
-        {
-            // Xử lý dữ liệu turretData tại đây
-            Debug.Log($"Loaded TurretDataSO for {GetType().Name}");
-        }
-        else
-        {
-            Debug.LogError($"Failed to load TurretDataSO at path: {path}");
-        }
-    }
-    public void LoadDataFromSO()
-    {
-        if (turretDataSO != null)
-        {
-           /* cost = turretDataSO.cost;
-            _damageAmount = turretDataSO.damage;
-            _maxShootDistance = turretDataSO.maxShootDistance;
-            upgradeCost = turretDataSO.upgradeCost;
-            _fireRate = turretDataSO.fireRate;*/
-        }
-        else
-        {
-            Debug.LogWarning("TurretDataSO is not assigned!");
-        }
-    }
     private void OnValidate()
     {
-        rangeAttack = transform.Find("Canvas").Find("Range").GetComponent<Image>();
-        rangeAttack.transform.localScale = Vector3.one * (turretDataSO.maxShootDistance / 10);
+        rangeAttack.transform.localScale = Vector3.one*(turretDataSO.maxShootDistance/10);
     }
-    #endregion
     public void UpgradeTurret()
     {
-        if (level == 2)
+        /*towerLevel++;*/
+        if (level==2)
         {
-            Debug.Log("MaximumLevel");
-        }
-        if (GameController.instance.GetMoney() < turretDataSO.upgradeCost )
+            Debug.Log("MaxLevel");
             return;
-        if (turretDataSO.nextLevel != null)
-        {
-            turretDataSO = turretDataSO.nextLevel;
-            level++;
-            LoadDataFromSO();
-            Debug.Log($"Turret upgraded to level {level}");
         }
-        else
-        {
-            Debug.Log("Turret is already at max level!");
-        }
+        // turretDataSO.damage += plusDame;
+        level++;
+        GameController.instance.ReceiveMoney(-turretDataSO.cost);
+        Debug.Log("Turret Updated");
+
+        turretDataSO = turretDataSO.nextLevel;
     }
     protected override bool CheckTarget()
     {
@@ -185,7 +135,7 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
             Vector2Int a= grid.GetMouseToArr(hit.point);
             a.x -= 1;
             a.y -= 1;
-            UI_IngameManager.instance.ShowUI_Upgrade(gameObject ,a ,grid);
+            UI_IngameManager.instance.ShowUI_Upgrade(GetComponent<TurretController>() ,a ,grid);
         } // Kiểm tra tia Ray có trúng đối tượng nào không
 
         Debug.Log(hit.collider);
