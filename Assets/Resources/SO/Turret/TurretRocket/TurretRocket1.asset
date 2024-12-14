@@ -15,8 +15,8 @@ MonoBehaviour:
   id: 3
   nameTurret: TurretRocket
   cost: 150
-  damage: 65
-  maxShootDistance: 15
+  damage: 44
+  maxShootDistance: 3.5
   upgradeCost: 200
   fireRate: 1
   nextLevel: {fileID: 0}

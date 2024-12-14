@@ -1,62 +1,118 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
+
 public class UI_IngameManager : MonoBehaviour
-{   
-    public static UI_IngameManager instance { get; private set; }
+{
+    private class TurretData
+    {
+        public TurretController TurretController { get; private set; }
+        public GameObject TurretObject { get; private set; }
+        public Vector3 WorldPosition { get; private set; }
 
-    private GameController gameController;
+        public TurretData(TurretController turretController, GameObject turretObject, Vector3 worldPosition)
+        {
+            TurretController = turretController;
+            TurretObject = turretObject;
+            WorldPosition = worldPosition;
+        }
+    }
+    public static UI_IngameManager Instance { get; private set; }
 
-    [SerializeField] private GridManager[] grids;
-    private bool gridEnable = false;
-    //thong in ui
-    [SerializeField] private GameObject uiUpgrade;
-    [SerializeField] private TextMeshProUGUI currentMoney;
-    // thong tin cua turret
-    private GameObject turret;
-    private Vector2Int point;
-    private GridManager grid;
+    [Header("UI References")]
+    [SerializeField] private GameObject uiUpgradePanel;
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private Transform CallWave;
+
+    private TurretData turretData;
+    private PlayerData playerData;
+
     private void Awake()
     {
-        instance = this;
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
+
     private void Start()
     {
-        gameController = GameController.instance;
-        UpdateMoney();
+        playerData = PlayerData.instance;
+        uiUpgradePanel.SetActive(false);
+        UpdateMoneyUI(playerData.GetMoney());
     }
-    public void ShowGrid()
+
+    #region UI Controls
+    public void ShowUpgradePanel(TurretController turret, GameObject turretObject, Vector3 posWorldSpace)
     {
-        foreach (GridManager grid in grids)
-        {
-            grid.HideAndShowGrid(!gridEnable);
-        }
-        gridEnable = !gridEnable;
+        // Cập nhật dữ liệu Turret
+        turretData = new TurretData(turret, turretObject, posWorldSpace);
+
+        // Hiển thị bảng nâng cấp
+        uiUpgradePanel.SetActive(true);
+
+        // Cập nhật vị trí bảng nâng cấp trên Canvas
+        Vector2 canvasPosition = UtilityFuntion.ConvertWordSpaceToUI(posWorldSpace, GetComponent<Canvas>());
+        uiUpgradePanel.GetComponent<RectTransform>().anchoredPosition = canvasPosition;
     }
-    public void ShowUI_Upgrade(GameObject _turret, Vector2Int a, GridManager _grid)
-    {   
-        uiUpgrade.SetActive(true);
-        turret = _turret;
-        point = a;
-        grid = _grid;
-    }
-    public void UpdateMoney()
+
+    public void UpdateMoneyUI(int currentMoney)
     {
-        currentMoney.text = gameController.GetMoney().ToString();
+        moneyText.text = currentMoney.ToString();
     }
-    #region button event
+
+    public void HideUpgradePanel()
+    {
+        uiUpgradePanel.SetActive(false);
+        turretData = null; // Reset dữ liệu khi ẩn panel
+    }
+    public void ShowUI_CallWave(Vector3 pos)
+    {
+        Vector2 posUi = UtilityFuntion.ConvertWordSpaceToUI(pos,GetComponent<Canvas>());
+
+    }
+    #endregion
+
+    #region Button Events
     public void RemoveTurret()
     {
-        grid.SetArr(point, false);
-        uiUpgrade.gameObject.SetActive(false);
-        Destroy(turret);
+        if (turretData == null) return;
+
+        // Hoàn tiền cho người chơi
+        int refundAmount = Mathf.FloorToInt(turretData.TurretController.turretDataSO.cost * 0.75f);
+        PlayerData.instance.ReceiveMoney(refundAmount);
+
+        // Thay đổi layer của đối tượng (nếu cần)
+        turretData.TurretObject.layer = 9;
+
+        // Phát âm thanh và xóa turret
+        BuildingSystem.instance.PlayRemoveSound();
+        Destroy(turretData.TurretController.gameObject);
+
+        // Ẩn panel nâng cấp
+        HideUpgradePanel();
     }
-    public void Upgrade()
+
+    public void UpgradeTurret()
     {
-        turret.GetComponent<TurretController>().UpgradeTurret();
-        uiUpgrade.gameObject.SetActive(false);
+        if (turretData == null) return;
+
+        // Kiểm tra điều kiện nâng cấp
+        int upgradeCost = turretData.TurretController.turretDataSO.upgradeCost;
+        if (PlayerData.instance.GetMoney() < upgradeCost)
+        {
+            Debug.Log("Dont enough money to update");
+            HideUpgradePanel();
+            return;
+        }
+
+        // Nâng cấp turret
+        turretData.TurretController.UpgradeTurret();
+        BuildingSystem.instance.PlayUpgradeSound();
+
+        // Ẩn panel nâng cấp
+        HideUpgradePanel();
     }
     #endregion
 }

@@ -11,6 +11,7 @@ public class EnemySO : ScriptableObject
     public float speed;
     public int dameAttack;
     public int moneyForDead;
+    public int level;
     /*public Sprite enemySprite;
     public GameObject enemyPrefab;*/
 }

@@ -12,7 +12,7 @@ public class MainTower : MonoBehaviour,IDameable
     {
         Instance = this;
     }
-    public void ReceiveDamage(float dame)
+    public void ReceiveDamage(int dame)
     {
         // throw new System.NotImplementedException();
         health -= dame;

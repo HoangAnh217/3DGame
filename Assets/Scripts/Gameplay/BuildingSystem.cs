@@ -7,8 +7,13 @@ using UnityEngine;
 public class BuildingSystem : MonoBehaviour
 {
     public static BuildingSystem instance;
-
     public GridManager[] gridManager;
+    //sound
+    public static AudioSource audioSource;
+    public AudioClip placeSound;
+    public AudioClip removeSound;
+    public AudioClip upgradeSound;
+    public AudioClip missPlaceSound;
     private void Awake()
     {
         instance = this;
@@ -16,6 +21,7 @@ public class BuildingSystem : MonoBehaviour
     private void Start()
     {
         gridManager = transform.GetChild(0).GetComponentsInChildren<GridManager>();
+        audioSource = GetComponent<AudioSource>();
     }
     public void ShowGrid()
     {
@@ -24,4 +30,36 @@ public class BuildingSystem : MonoBehaviour
             grid.HideAndShowGrid(true);
         }
     }
+    #region soundEfx
+    public void PlayPlaceSound()
+    {
+        if (placeSound != null)
+        {
+            audioSource.PlayOneShot(placeSound);
+        }
+    }
+
+    public void PlayRemoveSound()
+    {
+        if (removeSound != null)
+        {
+            audioSource.PlayOneShot(removeSound);
+        }
+    }
+
+    public void PlayUpgradeSound()
+    {
+        if (upgradeSound != null)
+        {
+            audioSource.PlayOneShot(upgradeSound);
+        }
+    }
+    public void PlayMissPlaceSound()
+    {
+        if (upgradeSound != null)
+        {
+            audioSource.PlayOneShot(missPlaceSound);
+        }
+    }
+    #endregion
 }

@@ -21,13 +21,18 @@ public class Dragon : Entity
 
         StartCoroutine(EffectDead());
     }
-   /* public void SetValue(float value)
+    /* public void SetValue(float value)
+     {
+         for (int i = 0; i < materials.Count; i++)
+         {
+             materials[i].SetFloat("_Dissolve", value);
+         }
+     }*/
+    public override void OnEnable()
     {
-        for (int i = 0; i < materials.Count; i++)
-        {
-            materials[i].SetFloat("_Dissolve", value);
-        }
-    }*/
+        base.OnEnable();
+        materials.SetFloat("_Dissolve", 0);
+    }
     private IEnumerator EffectDead()
     {
         float value = 0;

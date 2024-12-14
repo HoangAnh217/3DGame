@@ -6,7 +6,7 @@ public class TurretDataSO : ScriptableObject
     public int id;
     public string nameTurret = "Turret";
     public int cost;
-    public float damage;
+    public int damage;
     public float maxShootDistance;
     public int upgradeCost;
     public float fireRate;

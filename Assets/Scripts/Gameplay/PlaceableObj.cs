@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class PlaceableObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class PlaceableObj : MonoBehaviour   /* IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler*/
 {   
     // component
-    private TurretSpawner turretSpawner;
+   /* private TurretSpawner turretSpawner;
     private TurretController turretController;
     private BuildingSystem buildingSystem;
     //
     private GameObject draggedObject;
-    [SerializeField] private Transform border;
+    private Transform border;
     [SerializeField] private LayerMask layerMask;
     private Transform turretPrefab;
     private int indexTurret;
@@ -19,7 +19,8 @@ public class PlaceableObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     //
     private bool isDragging = false;
     private void Start()
-    {
+    {   
+        border = transform.GetChild(0);
         indexTurret = transform.GetSiblingIndex();
         buildingSystem = BuildingSystem.instance;
         turretSpawner = TurretSpawner.instance;
@@ -70,6 +71,7 @@ public class PlaceableObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             {
                 Vector3 a = buildingSystem.gridManager[index].GetPos(hit.point);
                 turretSpawner.Spawn(turretSpawner.GetPrefabByIndex(indexTurret), a,Quaternion.identity).gameObject.SetActive(true);
+                BuildingSystem.instance.PlayPlaceSound();
             }
             Destroy(draggedObject);
             turretController = null;    
@@ -97,5 +99,5 @@ public class PlaceableObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         return true;
 
-    }
+    }*/
 }

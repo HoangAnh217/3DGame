@@ -15,8 +15,8 @@ MonoBehaviour:
   id: 1
   nameTurret: TurretNormal
   cost: 50
-  damage: 40
-  maxShootDistance: 9
+  damage: 25
+  maxShootDistance: 2.5
   upgradeCost: 0
   fireRate: 0.4
   nextLevel: {fileID: 0}

@@ -1,9 +1,12 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -14,6 +17,9 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
      public int upgradeCost = 50;
      public float plusDame = 50;*/
     private int level = 1;
+    [Header("Upgrade")]
+    [SerializeField] private List<MeshRenderer> rendererOld;
+    [SerializeField] private List<MeshRenderer> rendererUpgrade;
     protected override void Start()
     {
         base.Start();
@@ -27,22 +33,28 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
     }
     private void OnValidate()
     {
+
+        Debug.Log("OnValidate");
+
         rangeAttack.transform.localScale = Vector3.one*(turretDataSO.maxShootDistance/10);
     }
     public void UpgradeTurret()
     {
         /*towerLevel++;*/
-        if (level==2)
+        if (level == 2)
         {
             Debug.Log("MaxLevel");
             return;
         }
         // turretDataSO.damage += plusDame;
         level++;
-        GameController.instance.ReceiveMoney(-turretDataSO.cost);
-        Debug.Log("Turret Updated");
-
         turretDataSO = turretDataSO.nextLevel;
+        rangeAttack.transform.localScale = Vector3.one * (turretDataSO.maxShootDistance / 10);
+        PlayerData.instance.ReceiveMoney(-turretDataSO.cost);
+        for (int i = 0; i < rendererOld.Count; i++)
+        {
+            rendererOld[i].materials = rendererUpgrade[i].materials;
+        }
     }
     protected override bool CheckTarget()
     {
@@ -129,13 +141,11 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
     {
         Ray ray = new Ray(transform.position + Vector3.up*3, Vector3.down); // Lấy tia Ray từ vị trí chuột
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity,LayerMask.GetMask(LayerMask.LayerToName(9))))
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity,LayerMask.GetMask(LayerMask.LayerToName(10))))
         {
-            GridManager grid = hit.collider.gameObject.GetComponent<GridManager>();
-            Vector2Int a= grid.GetMouseToArr(hit.point);
-            a.x -= 1;
-            a.y -= 1;
-            UI_IngameManager.instance.ShowUI_Upgrade(GetComponent<TurretController>() ,a ,grid);
+            GameObject obj = hit.collider.gameObject;
+            //Vector2Int a= grid.GetMouseToArr(hit.point);
+            UI_IngameManager.Instance.ShowUpgradePanel(GetComponent<TurretController>(), obj,transform.position);
         } // Kiểm tra tia Ray có trúng đối tượng nào không
 
         Debug.Log(hit.collider);

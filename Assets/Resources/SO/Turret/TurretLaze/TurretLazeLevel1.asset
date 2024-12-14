@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   nameTurret: TurretLaze
-  level: 1
   cost: 100
-  damage: 5
-  maxShootDistance: 14
+  damage: 7
+  maxShootDistance: 2
   upgradeCost: 125
   fireRate: 0.2
   nextLevel: {fileID: 11400000, guid: 4e4722495f20c9d4aa3a3eea72ec2de4, type: 2}

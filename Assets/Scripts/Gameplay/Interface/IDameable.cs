@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDameable 
 {
-    public void ReceiveDamage(float dame);
+    void ReceiveDamage(int dame);
 }

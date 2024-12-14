@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
-{
+{/*
     // control flow game
     private int money = 200;
     public int wave = 1;
     //player data test
     public static GameController instance;
-    private UI_IngameManager ingameManager;
+    private UI_IngameM
+}anager ingameManager;
     private void Awake()
     {
         instance = this;
@@ -17,15 +18,15 @@ public class GameController : MonoBehaviour
     }
     private void Start()
     {
-        ingameManager = UI_IngameManager.instance;
+        ingameManager = UI_IngameManager.Instance;
     }
     public void ReceiveMoney(int _money)
     {
         this.money+= _money;
-        ingameManager.UpdateMoney();
+        //ingameManager.UpdateMoneyUI();
     } 
     public int GetMoney()
     {
         return money;
-    }
+    }*/
 }
