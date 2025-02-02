@@ -47,17 +47,25 @@ public class Entity : TriBehaviour, IDameable
         currentWaypointIndex = 0;
         waypoints.Clear();
         CreatePath();
-        RotateModel();
+        //RotateModel();
+        if (waypoints.Count == 0) return;
+
+        Vector3 dir = waypoints[currentWaypointIndex].position - transform.position;
+        Vector3 convertDir = new Vector3(dir.x, 0, dir.z);
+        float angle = Mathf.Atan2(convertDir.z, convertDir.x) * Mathf.Rad2Deg;
+        model.localRotation = Quaternion.Euler(0, -angle + 90, 0);
         MoveToNextWaypoint();
     }
     protected virtual void InitializeEntity()
     {
+
         healthSlider.maxValue = enemySO.health;
         damageEffectSlider.maxValue = enemySO.health;
     }
     // Set enemy data
     public void SetEnemySO(EnemySO newEnemySO,WayPoint _wayPoint)
     {
+
         enemySO = newEnemySO;
         health = enemySO.health;
         healthSlider.maxValue = health;
@@ -84,7 +92,7 @@ public class Entity : TriBehaviour, IDameable
     }
     #region Damage Handling
 
-    public void ReceiveDamage(int damage)
+    public virtual void ReceiveDamage(int damage)
     {
         DisplayDamageText(damage);
         healthSlider.gameObject.SetActive(true);
@@ -173,12 +181,35 @@ public class Entity : TriBehaviour, IDameable
     {
         if (waypoints.Count == 0) return;
 
+        // Tính toán hướng từ vị trí hiện tại đến waypoint
         Vector3 dir = waypoints[currentWaypointIndex].position - transform.position;
         Vector3 convertDir = new Vector3(dir.x, 0, dir.z);
+
+        // Chuyển đổi hướng thành góc quay mục tiêu
         float angle = Mathf.Atan2(convertDir.z, convertDir.x) * Mathf.Rad2Deg;
-        model.localRotation = Quaternion.Euler(0, -angle + 90, 0);
+        Quaternion targetRotation = Quaternion.Euler(0, -angle + 90, 0);
+
+        // Bắt đầu Coroutine để xoay từ từ
+        StartCoroutine(RotateOverTime(targetRotation, 0.2f)); // 0.5f là thời gian để xoay hoàn tất
     }
 
+    // Coroutine để xoay từ từ
+    private IEnumerator RotateOverTime(Quaternion targetRotation, float duration)
+    {
+        Quaternion initialRotation = model.localRotation; // Lưu góc quay ban đầu
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Nội suy góc quay theo thời gian
+            model.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Đợi đến frame tiếp theo
+        }
+
+        // Đảm bảo rotation cuối cùng đúng chính xác góc mục tiêu
+        model.localRotation = targetRotation;
+    }
     #endregion
 
     #region Attack

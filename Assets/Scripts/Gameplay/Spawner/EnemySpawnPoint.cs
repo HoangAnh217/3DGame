@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class EnemySpawnPoint : MonoBehaviour
     public float waveInterval = 5.0f;   // Thời gian nghỉ giữa các wave
 
     [SerializeField] private WayPoint _wayPoint;
+    [SerializeField] Transform portalGate;
 
     private int currentWaveIndex = 0;   // Wave hiện tại
     private void Awake()
@@ -18,6 +20,7 @@ public class EnemySpawnPoint : MonoBehaviour
     void Start()
     {
         currentWaveIndex = 0;
+        portalGate.localScale = Vector3.zero;
         StartWave();
     }
     public void StartWave()
@@ -28,22 +31,26 @@ public class EnemySpawnPoint : MonoBehaviour
             return; // Dừng lại nếu đã hết wave
         }
         Debug.Log("Next Wave");
+        portalGate.DOScale(Vector3.one, 1);
         StartCoroutine(SpawnWave(waveDataSO.waves[currentWaveIndex]));
     }
 
     private IEnumerator SpawnWave(EnemyWave wave)
     {   
         //UI_IngameManager.Instance.
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         EnemySpawner.Instance.SetWave(wave);
         foreach (var enemyData in wave.enemies)
         {
             for (int i = 0; i < enemyData.count; i++)
             {
                 SpawnEnemy(enemyData.enemyData);
-                yield return new WaitForSeconds(0.2f);
+                float rad = Random.Range(0.23f, 0.45f);
+
+                yield return new WaitForSeconds(rad);
             }
         }
+        portalGate.DOScale(Vector3.zero, 0.45f);
         currentWaveIndex++;
     }
 
@@ -55,4 +62,28 @@ public class EnemySpawnPoint : MonoBehaviour
         // Spawn enemy tại vị trí ngẫu nhiên
         EnemySpawner.Instance.SpawnEnemy(enemySO, randomPosition, Quaternion.identity, _wayPoint);
     }
+
+    #region for tutorial system
+    public IEnumerator SpawnEnemyTutorial(WaveDataSO wave)
+    {
+        portalGate.DOScale(Vector3.one, 1);
+        yield return new WaitForSeconds(1);
+        foreach (var enemyData in wave.waves)
+        {
+
+
+            for (int i = 0; i < enemyData.enemies.Count; i++)
+            {
+
+                Debug.Log(enemyData.enemies.Count);
+
+                SpawnEnemy(enemyData.enemies[i].enemyData);
+                float rad = Random.Range(0.23f, 0.45f);
+
+                yield return new WaitForSeconds(rad);
+            }
+        }
+        portalGate.DOScale(Vector3.zero, 0.45f);
+    }
+    #endregion
 }

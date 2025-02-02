@@ -12,7 +12,7 @@ public class PlacementObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Transform turretPrefab;
     private GameObject draggedObject;
     [SerializeField] private Transform border;
-    private Transform cube;
+    [SerializeField] private Transform cube;
     private Material cubeMaterial;
 
     // Configuration
@@ -31,7 +31,6 @@ public class PlacementObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private void InitializeComponents()
     {
         border = transform.GetChild(0);
-        cube = BuildingSystem.instance.transform.Find("Cube");
         cubeMaterial = cube.GetComponent<Renderer>().material;
         border.gameObject.SetActive(false);
         cube.gameObject.SetActive(false);

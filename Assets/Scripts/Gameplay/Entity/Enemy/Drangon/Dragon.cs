@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Dragon : Entity
@@ -21,6 +22,7 @@ public class Dragon : Entity
 
         StartCoroutine(EffectDead());
     }
+    
     /* public void SetValue(float value)
      {
          for (int i = 0; i < materials.Count; i++)

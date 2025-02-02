@@ -13,12 +13,12 @@ public class CastSkill : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     [SerializeField] private float timeCountDown = 10f;
     [SerializeField] private UnityEngine.UI.Image skillCountDown;
     [SerializeField] private GameObject skillFrameImage;
-    private float timer = 0f;
+    protected float timer = 0f;
+    protected bool isCasting = false;
     protected virtual void Start()
     {
        //    skillCountDown = transform.GetChild(0).GetComponent<Image>();
         skillFrameImage.SetActive(false);
-        skill.SetActive(false);
     }
     private void Update()
     {
@@ -32,11 +32,13 @@ public class CastSkill : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Debug.Log("cant do ");
             return;
         }
-        skill.SetActive(true);
+        isCasting = true;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
+        if (!isCasting)
+            return;
         if (TryGetHitPosition(eventData, out RaycastHit hit))
         {
             skill.transform.position = hit.point+Vector3.up*0.3f;
@@ -61,6 +63,7 @@ public class CastSkill : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         //throw new System.NotImplementedException();
         timer = timeCountDown;
         skillCountDown.fillAmount = 1;
+        isCasting = false;
 
     }
     protected virtual bool TryGetHitPosition(PointerEventData eventData, out RaycastHit hit)

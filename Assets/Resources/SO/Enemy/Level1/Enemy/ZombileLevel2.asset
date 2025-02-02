@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   enemyName: Zombile
   health: 80
-  speed: 1.3
+  speed: 1.6
   dameAttack: 15
   moneyForDead: 44
   level: 2

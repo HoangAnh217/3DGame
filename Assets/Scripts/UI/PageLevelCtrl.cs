@@ -1,81 +1,115 @@
-﻿using System.Collections;
+﻿using DanielLochner.Assets.SimpleScrollSnap;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+using static System.Net.Mime.MediaTypeNames;
 
 public class PageLevelCtrl : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> objs  = new List<GameObject>();
-    [SerializeField] private GameObject holderObjBlock;
-    private static int level;
+    [SerializeField] private SimpleScrollSnap simpleScroll;   
+    
 
-    [SerializeField] private Sprite[] sprs;
+    [SerializeField] private int maxPage;
+    [SerializeField] private int unlockPage = 2;
+    [SerializeField] private Material material;
+    [SerializeField] private Transform[] panel;
+
+    private TextMeshProUGUI titleText;
+    private TextMeshProUGUI introduceText;
+    [Header("AnimateScaleObj")]
+    private Tween currentTween;
+    [SerializeField] private float duration;
+    [SerializeField] private GameObject titleObj;
+    [SerializeField] private GameObject introduceObj;
+    [SerializeField] private GameObject buttonSelect;
+    [Header("Title and Introduce Text")]
+    [SerializeField] private List<string> titlesString; // Danh sách các title cho từng trang.
+    [SerializeField] private List<string> introduceTextString;
     private void Start()
-    {
-        LoadUI_Level();
-    }
-    private void OnValidate()
-    {
-        LoadUI_Level();
-    }
-    public void LoadUI_Level()
-    {
-        level = PlayerPrefs.GetInt("Level");
-        
-        for (int i = 0; i < objs.Count; i++)
-        {   
-
-
-            if (i >= level)
-            {
-                Color a = Color.gray;
-                objs[i].GetComponent<Image>().color = a;
-                objs[i].GetComponentInChildren<TextMeshProUGUI>().color = a;
-                Transform tras = objs[i].transform.Find("Star");
-                tras.gameObject.SetActive(false);
-
-                // block sign from mouse
-                //holderObjBlock.transform.GetChild(i).gameObject.SetActive();
-
-            } else
-            {
-                string b = "Score" + (i+1).ToString() ;
-                Transform tras = objs[i].transform.Find("Star");
-                int star = PlayerPrefs.GetInt(b);
-                foreach (Transform t in tras)
-                {
-                    if (star>0)
-                    {
-                        return;
-                    }
-                    t.GetComponent<Image>().sprite = sprs[1];
-                    star--;
-                }
-                holderObjBlock.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        Debug.Log(level);
-    }
-}/*
-[CustomEditor(typeof(PageLevelCtrl))]
-public class PlayerDataEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // Vẽ giao diện mặc định của Inspector
-        DrawDefaultInspector();
-
-        // Lấy tham chiếu đến PlayerData
-        PageLevelCtrl playerData = (PageLevelCtrl)target;
-
-        // Tạo nút "Load Data" trong Inspector
-        if (GUILayout.Button("Load Data"))
+    {   
+        titleText = titleObj.GetComponentInChildren<TextMeshProUGUI>();
+        introduceText = introduceObj.GetComponentInChildren<TextMeshProUGUI>();
+        for (int i = unlockPage; i < panel.Length; i++)
         {
-            // Gọi phương thức LoadData() khi nhấn nút
-            playerData.LoadUI_Level();
+            panel[i].GetChild(0).gameObject.SetActive(true);
+            panel[i].GetComponent<RawImage>().material = material;
         }
     }
-}*/
+    #region button
+    public void Next()
+    {
+        // press button next will call next() and then call ActWhenEndDrag(int centeredPanel)
+        if (simpleScroll.CenteredPanel ==maxPage-1)
+        {
+            return;
+        }
+        titleObj.transform.DOScale(Vector3.zero, duration / 4);
+        introduceObj.transform.DOScale(Vector3.zero, duration / 4);
+        currentTween = buttonSelect.transform.DOScale(Vector3.zero, duration / 4).OnComplete(() =>{
+        });
+    }
+
+    public void Previous()
+    {
+        if (simpleScroll.CenteredPanel == 0)
+        {   
+            return;
+        }
+        titleObj.transform.DOScale(Vector3.zero, duration / 4);
+        introduceObj.transform.DOScale(Vector3.zero, duration / 4);
+        currentTween = buttonSelect.transform.DOScale(Vector3.zero, duration / 4);
+    }
+    public void Return()
+    {
+
+    }
+    public void Select()
+    {
+        SceneController.instance.SelectLevel(1);
+    }
+    #endregion
+    private void AnimateObject(int index)
+    {
+        if (currentTween.IsPlaying())
+        {
+            currentTween.OnComplete(() =>
+            {
+                Animate(index);
+            });
+        }
+        else
+        {
+            Animate(index);
+        }
+    }
+
+    private void Animate(int index)
+    {
+        titleText.text = titlesString[index];
+        introduceText.text = introduceTextString[index];
+
+        titleObj.transform.DOScale(Vector3.one, duration / 2);
+        introduceObj.transform.DOScale(Vector3.one, duration / 2);
+        buttonSelect.transform.DOScale(Vector3.one, duration / 2).OnComplete(() =>
+        {
+            currentTween = null;
+        });
+    }
+
+    public void ActWhenBeginDrag()
+    {
+
+        titleObj.transform.DOScale(Vector3.zero, duration / 2);
+        introduceObj.transform.DOScale(Vector3.zero, duration / 2);
+        currentTween = buttonSelect.transform.DOScale(Vector3.zero, duration / 2);
+    }
+    public void ActWhenEndDrag(int centeredPanel)
+    {
+        Debug.Log(centeredPanel);
+        AnimateObject(centeredPanel);
+    }
+}

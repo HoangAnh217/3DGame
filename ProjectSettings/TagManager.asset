@@ -16,7 +16,7 @@ TagManager:
   - Turret
   - PlaceableArea
   - UnPlaceable
-  - 
+  - UI_Background
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 2007008989
     locked: 0

@@ -33,9 +33,6 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
     }
     private void OnValidate()
     {
-
-        Debug.Log("OnValidate");
-
         rangeAttack.transform.localScale = Vector3.one*(turretDataSO.maxShootDistance/10);
     }
     public void UpgradeTurret()

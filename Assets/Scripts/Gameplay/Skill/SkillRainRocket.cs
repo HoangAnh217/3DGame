@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,39 +6,58 @@ using UnityEngine.VFX;
 
 public class SKillRainRocket : CastSkill
 {
-    [SerializeField] private VisualEffect prefabsRainMeteorite;
+    [SerializeField] private ParticleSystem prefabsRainMeteorite;
+    private SpriteRenderer spriteRenderer;
     protected override void Start()
     {   
         base.Start();
-        prefabsRainMeteorite.gameObject.SetActive(false);
+        // prefabsRainMeteorite.gameObject.SetActive(false);
+        //prefabsRainMeteorite.shape.radius = radiusDame;
+        spriteRenderer = prefabsRainMeteorite.GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.gameObject.SetActive(false);
+        prefabsRainMeteorite.Stop();
+    }
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        if (timer >= 0)
+        {
+            Debug.Log("cant do ");
+            return;
+        }
+        isCasting = true;
+        spriteRenderer.gameObject.SetActive(true);
+
+        Debug.Log("asdasd");
+
+
     }
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (!isCasting)
+            return;
         if (TryGetHitPosition(eventData, out RaycastHit hit))
-        {
-            StartCoroutine(DameEffect(hit.point+Vector3.up*0.3f,2f));
+        {   
+            spriteRenderer.gameObject.SetActive(false);
+            StartCoroutine(DameEffect(hit.point+Vector3.up*0.3f,4f - 0.35f-0.5f));
             base.OnEndDrag(eventData);
         }
     }
-    private IEnumerator DameEffect(Vector3 pos,float time)
+    private IEnumerator DameEffect(Vector3 pos, float time)
     {
         // Activate the meteorite prefab
-        prefabsRainMeteorite.gameObject.SetActive(true);
         prefabsRainMeteorite.Play();
-        int count = Mathf.FloorToInt(time/0.2f);
-        yield return new WaitForSeconds(1f);
+        float timerDame = 0.3f;
+        int count = Mathf.FloorToInt(time / timerDame);
+        yield return new WaitForSeconds(0.35f);
         for (int i = 0; i < count; i++)
         {
             // Apply damage to enemies within the radius
-            yield return DealDamage(pos, 0.8f, 1); // Radius = 0.8f, Damage = 10
+            yield return DealDamage(pos, 1.3f, 2, timerDame); // Radius = 0.8f, Damage = 10
         }
+        yield return new WaitForSeconds(0.5f);
         prefabsRainMeteorite.Stop();
-        yield return new WaitForSeconds(1.7f);
-        prefabsRainMeteorite.gameObject.SetActive(false );
-        skill.SetActive(false);
     }
-
-    private IEnumerator DealDamage(Vector3 position, float radius, int damage)
+    private IEnumerator DealDamage(Vector3 position, float radius, int damage,float time)
     {
         Collider[] enemiesInRange = Physics.OverlapSphere(position, radius, LayerMask.GetMask("Enemy"));
         foreach (var enemy in enemiesInRange)
@@ -53,6 +72,14 @@ public class SKillRainRocket : CastSkill
                 health.ReceiveDamage(damage);
             }
         }
-        yield return new WaitForSeconds(0.2f);  // Wait before the next damage
+        yield return new WaitForSeconds(time);  // Wait before the next damage
+    }
+    private void OnDrawGizmosSelected()
+    {
+        // Màu sắc của Gizmo
+        Gizmos.color = new Color(1, 0, 0, 0.5f); // Màu đỏ, bán trong suốt
+
+        // Vẽ Sphere để hiển thị phạm vi gây damage
+        Gizmos.DrawWireSphere(skill.transform.position, 1.3f); // Thay 0.8f bằng radius nếu là biến
     }
 }
