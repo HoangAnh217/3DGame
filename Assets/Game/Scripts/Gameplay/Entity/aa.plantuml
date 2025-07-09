@@ -1,0 +1,19 @@
+@startuml
+[*] --> ChờChọnXe : Bắt đầu thao tác đặt chỗ
+
+ChờChọnXe --> NhậpThôngTin : Xe được chọn
+NhậpThôngTin --> KiểmTraTínhHợpLệ : Thông tin được nhập
+
+KiểmTraTínhHợpLệ --> Lỗi : Thông tin không hợp lệ
+Lỗi --> NhậpThôngTin : Người dùng sửa lại
+
+KiểmTraTínhHợpLệ --> KiểmTraKhảDụng : Thông tin hợp lệ
+KiểmTraKhảDụng --> TừChối : Xe không còn trống
+TừChối --> ChờChọnXe : Quay lại chọn xe khác
+
+KiểmTraKhảDụng --> TạoĐặtChỗ : Xe còn trống
+TạoĐặtChỗ --> ĐặtChỗThànhCông : Tạo đặt chỗ thành công
+
+ĐặtChỗThànhCông --> [*] : Kết thúc
+
+@enduml
