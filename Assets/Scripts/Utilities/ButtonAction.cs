@@ -16,10 +16,11 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private TextMeshPro textMeshPro;
     private Image image;
     private Color colorOrigin;
-    [SerializeField] private int scene;
+    [SerializeField] private int sceneIndex;
     [Header("infor")]
     [SerializeField] private bool hasText = true;
     [SerializeField] private bool hasRotate = true;
+    [SerializeField] private Animator trasitionSenece;
 
     private void Start()
     {
@@ -42,9 +43,7 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         yourButton = GetComponent<Button>();
         if (hasText)
         {
-            // Kiểm tra TextMeshProUGUI
             textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
-            // Nếu không phải TextMeshProUGUI, kiểm tra TextMeshPro
             if (textMeshProUGUI == null)
                 textMeshPro = GetComponentInChildren<TextMeshPro>();
         }
@@ -111,13 +110,43 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void LoadSence()
     {
-        if (scene >= 0 && scene < SceneManager.sceneCountInBuildSettings)
+        if (sceneIndex >= 0 && sceneIndex < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadScene(scene);
+           // SceneManager.LoadScene(sceneIndex);
+            SceneController scenceController  = SceneController.instance;
+            if (scenceController == null)
+            {
+                Debug.Log("asdasd");
+                SceneManager.LoadScene(sceneIndex);
+            }
+            else
+            StartCoroutine(scenceController.LoadLevel(sceneIndex));
         }
         else
         {
             Debug.LogError("Scene index is invalid or not set!");
         }
     }
+/*    private IEnumerator LoadLevel()
+    {
+        trasitionSenece.SetTrigger("Start");
+
+
+        yield return new WaitForSeconds(0.6f);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        asyncLoad.allowSceneActivation = false; 
+
+        while (!asyncLoad.isDone)
+        {
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+
+            yield return null; 
+        }
+
+        trasitionSenece.SetTrigger("End");
+        yield return new WaitForSeconds(0.3f);
+    }*/
 }

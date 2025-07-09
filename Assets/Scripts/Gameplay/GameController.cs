@@ -1,32 +1,20 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
-{/*
-    // control flow game
-    private int money = 200;
-    public int wave = 1;
-    //player data test
-    public static GameController instance;
-    private UI_IngameM
-}anager ingameManager;
+{   
+    public static GameController Instance;
     private void Awake()
     {
-        instance = this;
-        money = 200;
+        Instance = this;
     }
-    private void Start()
+
+    [SerializeField] private Slider healthSlider;
+
+    public void UpdateSlide()
     {
-        ingameManager = UI_IngameManager.Instance;
+        healthSlider.value = healthSlider.value - 10; // Giảm giá trị của thanh trượt
     }
-    public void ReceiveMoney(int _money)
-    {
-        this.money+= _money;
-        //ingameManager.UpdateMoneyUI();
-    } 
-    public int GetMoney()
-    {
-        return money;
-    }*/
 }

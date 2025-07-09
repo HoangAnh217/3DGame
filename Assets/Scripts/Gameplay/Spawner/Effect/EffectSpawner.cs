@@ -13,7 +13,8 @@ public class EffectSpawner : Spawner
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private GameObject parentCoin;
 
-    private TextMeshPro damageTextPrefab;
+    public static string TextFloat = "DamageText";
+   // private TextMeshPro damageTextPrefab;
     protected override void Awake()
     {
         base.Awake();

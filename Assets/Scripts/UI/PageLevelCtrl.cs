@@ -69,7 +69,8 @@ public class PageLevelCtrl : MonoBehaviour
     }
     public void Select()
     {
-        SceneController.instance.SelectLevel(1);
+        Debug.Log(simpleScroll.CenteredPanel);
+        SceneController.instance.SelectLevel(simpleScroll.CenteredPanel+3);
     }
     #endregion
     private void AnimateObject(int index)

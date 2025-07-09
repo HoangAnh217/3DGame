@@ -770,7 +770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &290927863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2298,9 +2298,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 271616621}
-        m_TargetAssemblyTypeName: PageLevelCtrl, Assembly-CSharp
-        m_MethodName: Return
+      - m_Target: {fileID: 1084907998}
+        m_TargetAssemblyTypeName: ButtonAction, Assembly-CSharp
+        m_MethodName: LoadSence
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2360,9 +2360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c176bf90ebc92c43920c22a6eaf63e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 0
+  sceneIndex: 0
   hasText: 0
   hasRotate: 0
+  trasitionSenece: {fileID: 0}
 --- !u!1 &1101391434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,9 +2843,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c176bf90ebc92c43920c22a6eaf63e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 0
+  sceneIndex: 0
   hasText: 1
   hasRotate: 1
+  trasitionSenece: {fileID: 0}
 --- !u!1 &1264787113
 GameObject:
   m_ObjectHideFlags: 0

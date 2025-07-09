@@ -27,31 +27,30 @@ public class SceneController : MonoBehaviour
         StartCoroutine(SelectLevelPlay(level));
     }
 
-    public IEnumerator LoadLevel()
+    public IEnumerator LoadLevel(int scenceIndex)
     {
+        // Bắt đầu fade out
         transitionAnim.SetTrigger("Start");
+        yield return new WaitForSeconds(0.6f); // Đợi fade out hoàn tất
 
-
-        yield return new WaitForSeconds(0.6f);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        // Bắt đầu tải scene
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scenceIndex);
         asyncLoad.allowSceneActivation = false; // Tạm thời không kích hoạt scene ngay lập tức
 
         while (!asyncLoad.isDone)
         {
-            // Kiểm tra nếu scene tải xong, kích hoạt khi fade in sẵn sàng
-            if (asyncLoad.progress >= 0.9f)
-            {
-                // Kích hoạt scene khi fade in hoàn tất
-                asyncLoad.allowSceneActivation = true;
-            }
+            
+            // Đợi fade in hoàn tất trước khi kích hoạt scene
+            asyncLoad.allowSceneActivation = true;
+            transitionAnim.SetTrigger("End");
+            yield return new WaitForSeconds(0.3f); // Đợi fade in hoàn tất
+
+            // Kích hoạt scene
 
             yield return null; // Chờ cho frame tiếp theo
         }
 
-        // Bắt đầu fade in
-        transitionAnim.SetTrigger("End");
-        // Đợi fade in hoàn tất
-        yield return new WaitForSeconds(0.3f);
+        Debug.Log("Scene loaded and activated.");
     }
     public IEnumerator SelectLevelPlay(int level)
     {

@@ -29,14 +29,14 @@ public class Entity : TriBehaviour, IDameable
     public GameObject parentCoin;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider damageEffectSlider;
-    [SerializeField] private GameObject damageTextPrefab;
+    //[SerializeField] private GameObject damageTextPrefab;
     [SerializeField] private TextMeshPro textLevel;
     protected override void Start()
     {   
         
         InitializeEntity();
         healthSlider.gameObject.SetActive(false);
-        damageTextPrefab.SetActive(false);
+       // damageTextPrefab.SetActive(false);
     }
     public override void OnEnable()
     {
@@ -86,7 +86,7 @@ public class Entity : TriBehaviour, IDameable
     {
         canvas = transform.Find("Canvas").GetComponent<Canvas>();
         damageEffectSlider = transform.Find("Canvas").Find("Hp").Find("SliderDameReiceive").GetComponent<Slider>();
-        damageTextPrefab = transform.Find("Canvas").Find("DamageText").gameObject;
+       // damageTextPrefab = transform.Find("Canvas").Find("DamageText").gameObject;
        /* parentCoin = GameObject.Find("Canvas").transform.Find("Money").gameObject;
         coinPrefab = parentCoin.transform.Find("Image").gameObject;*/
     }
@@ -103,27 +103,33 @@ public class Entity : TriBehaviour, IDameable
         if (health <= 0)
         {
             OnDead();
-            animator.SetBool("Dead", true);
+           // animator.SetBool("Dead", true);
         }
     }
     private void DisplayDamageText(int damage)
     {
         // Tạo bản sao của TextMeshPro từ prefab
-        GameObject damageTextInstance = Instantiate(damageTextPrefab.gameObject, damageTextPrefab.transform.position, damageTextPrefab.transform.rotation);
-        RectTransform rectTransform = damageTextPrefab.GetComponent<RectTransform>();
-        // Đảm bảo bản sao được thêm vào Canvas (hoặc nơi bạn muốn)
-        damageTextInstance.transform.SetParent(transform.Find("Canvas"), false); // False giữ nguyên vị trí và tỷ lệ
-        damageTextInstance.GetComponent<RectTransform>().localPosition = rectTransform.localPosition;
-        // Hiển thị sát thương
-        damageTextInstance.SetActive(true);
-        TextMeshPro damageText = damageTextInstance.GetComponent<TextMeshPro>();
-        damageText.text =  damage.ToString(); // Hiển thị số lượng sát thương
+        /* GameObject damageTextInstance = Instantiate(damageTextPrefab.gameObject, damageTextPrefab.transform.position, damageTextPrefab.transform.rotation);
+         RectTransform rectTransform = damageTextPrefab.GetComponent<RectTransform>();
+         // Đảm bảo bản sao được thêm vào Canvas (hoặc nơi bạn muốn)
+         damageTextInstance.transform.SetParent(transform.Find("Canvas"), false); // False giữ nguyên vị trí và tỷ lệ
+         damageTextInstance.GetComponent<RectTransform>().localPosition = rectTransform.localPosition;
+         // Hiển thị sát thương
+         damageTextInstance.SetActive(true);
+         TextMeshPro damageText = damageTextInstance.GetComponent<TextMeshPro>();*/
+        //damageText.text = damage.ToString(); // Hiển thị số lượng sát thương
         // Di chuyển Text lên và làm mờ nó
-        damageTextInstance.transform.DOMoveY(damageTextInstance.transform.position.y + 0.5f, 0.8f) // Di chuyển lên trên
-            .SetEase(Ease.OutQuad); // Hiệu ứng di chuyển mượt mà
+        /*damageTextInstance.transform.DOMoveY(damageTextInstance.transform.position.y + 0.5f, 0.8f) // Di chuyển lên trên
+            .SetEase(Ease.OutQuad); */// Hiệu ứng di chuyển mượt mà
 
         // Làm mờ Text sau khi di chuyển xong
-        damageText.DOFade(0, 0.5f).OnKill(() => Destroy(damageTextInstance)); // Làm mờ text dần dần và hủy khi hoàn thành
+        /*damageText.DOFade(0, 0.5f).OnKill(() => Destroy(damageTextInstance)); // Làm mờ text dần dần và hủy khi hoàn thành
+        damageTextPrefab.gameObject.SetActive(true);
+        TextMeshPro text = damageTextPrefab.GetComponent<TextMeshPro>();
+        text.text = damage.ToString();*/
+        Transform obj =  EffectSpawner.Instance.Spawn(EffectSpawner.TextFloat, transform.position, Quaternion.identity);
+        obj.GetComponent<TextMeshPro>().text = damage.ToString();
+        //obj.SetParent(transform);
     }
 
     public virtual void OnDead()
@@ -160,6 +166,11 @@ public class Entity : TriBehaviour, IDameable
                     }
                 });
         }
+        else
+        {   
+            GameController.Instance.UpdateSlide();
+            EnemySpawner.Instance.Despawm(transform);
+        }
     }
 
     private void CreatePath()
@@ -193,7 +204,6 @@ public class Entity : TriBehaviour, IDameable
         StartCoroutine(RotateOverTime(targetRotation, 0.2f)); // 0.5f là thời gian để xoay hoàn tất
     }
 
-    // Coroutine để xoay từ từ
     private IEnumerator RotateOverTime(Quaternion targetRotation, float duration)
     {
         Quaternion initialRotation = model.localRotation; // Lưu góc quay ban đầu
@@ -201,13 +211,11 @@ public class Entity : TriBehaviour, IDameable
 
         while (elapsedTime < duration)
         {
-            // Nội suy góc quay theo thời gian
             model.localRotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null; // Đợi đến frame tiếp theo
         }
 
-        // Đảm bảo rotation cuối cùng đúng chính xác góc mục tiêu
         model.localRotation = targetRotation;
     }
     #endregion
@@ -232,9 +240,6 @@ public class Entity : TriBehaviour, IDameable
         GameObject coin = Instantiate(coinPrefab, parentCoin.transform);
         RectTransform coinRect = coin.GetComponent<RectTransform>();
         coinRect.anchoredPosition = ConvertWorldToCanvasPosition(transform.position);
-
-
-        // Bay từ vị trí bắt đầu đến vị trí UI mục tiêu
         coinRect.DOAnchorPos(coinPrefab.GetComponent<RectTransform>().anchoredPosition, 1f).SetEase(Ease.InOutQuad).OnComplete(() =>
         {
             Destroy(coin); // Xóa coin sau khi bay tới UI
