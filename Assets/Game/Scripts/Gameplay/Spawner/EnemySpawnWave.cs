@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnPoint : MonoBehaviour
+public class EnemySpawnWave : MonoBehaviour
 {   
-    public static EnemySpawnPoint Instance;
+    public static EnemySpawnWave Instance;
     public WaveDataSO waveDataSO;        // Tham chiếu đến WaveDataSO
     public float waveInterval = 5.0f;   // Thời gian nghỉ giữa các wave
 
@@ -27,13 +27,26 @@ public class EnemySpawnPoint : MonoBehaviour
     {
         if (currentWaveIndex >= waveDataSO.waves.Count)
         {
-            Debug.Log("All waves completed!");
-            return; // Dừng lại nếu đã hết wave
+            Debug.Log("You win");
+            GameController.Instance.WinGame();
+            return;
         }
-        Debug.Log("Next Wave");
-        portalGate.DOScale(Vector3.one, 1);
+        Debug.Log("asdasd");
+
+        StartCoroutine(HandleStartWave());
+    }
+    private IEnumerator HandleStartWave()
+    {
+        MainCanvas.Instance.ShowWaveNotification(currentWaveIndex + 1, waveDataSO.waves.Count, 2f);
+
+        Debug.Log("asdasd");
+
+        yield return new WaitForSeconds(2f); // Đợi hiển thị xong wave
+        Debug.Log("asdasd");
+        portalGate.DOScale(Vector3.one, 1); // Có thể chạy cùng lúc với hiệu ứng wave
         StartCoroutine(SpawnWave(waveDataSO.waves[currentWaveIndex]));
     }
+
 
     private IEnumerator SpawnWave(EnemyWave wave)
     {   

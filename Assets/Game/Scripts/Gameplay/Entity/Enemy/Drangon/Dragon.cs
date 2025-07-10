@@ -14,8 +14,8 @@ public class Dragon : Entity
         base.Start();
     }
     public override void OnDead()
-    {
-        Debug.Log("dead");
+    {   
+        base.OnDead();
     }
     public override void OnEnable()
     {

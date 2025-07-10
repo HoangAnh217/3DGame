@@ -45,7 +45,7 @@ public class EnemySpawner : Spawner
         numOfEnemy--;
         if (IsClear())
         {
-            EnemySpawnPoint.Instance.StartWave();
+            EnemySpawnWave.Instance.StartWave();
         }
     }
 }

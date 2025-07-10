@@ -20,7 +20,7 @@ public class ActionManager : MonoBehaviour
     [SerializeField] private Transform mainCanvas;
 
     [Header("Spawn")]
-    [SerializeField] private EnemySpawnPoint spawnPoint;
+    [SerializeField] private EnemySpawnWave spawnPoint;
     [SerializeField] private WaveDataSO enemyWaveForTuto;
 
     public void PerformAction(ActionName actionName)

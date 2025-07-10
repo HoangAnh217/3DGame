@@ -23,17 +23,3 @@ MonoBehaviour:
       count: 3
     - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
       count: 4
-  - enemies:
-    - enemyData: {fileID: 11400000, guid: 7b14fe459c25ba0478fc24630c5ce708, type: 2}
-      count: 3
-    - enemyData: {fileID: 11400000, guid: d8d8aafde26c6934b80794c2734135f6, type: 2}
-      count: 3
-    - enemyData: {fileID: 11400000, guid: d8d8aafde26c6934b80794c2734135f6, type: 2}
-      count: 4
-  - enemies:
-    - enemyData: {fileID: 11400000, guid: 7b14fe459c25ba0478fc24630c5ce708, type: 2}
-      count: 5
-    - enemyData: {fileID: 11400000, guid: bbd0b25cb3ca2ac489f1391797fce491, type: 2}
-      count: 5
-    - enemyData: {fileID: 11400000, guid: c22b50b73b1da314cb062860f101db00, type: 2}
-      count: 7

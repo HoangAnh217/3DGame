@@ -142,7 +142,7 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
         {
             GameObject obj = hit.collider.gameObject;
             //Vector2Int a= grid.GetMouseToArr(hit.point);
-            UI_IngameManager.Instance.ShowUpgradePanel(GetComponent<TurretController>(), obj,transform.position);
+            MainCanvas.Instance.ShowUpgradePanel(GetComponent<TurretController>(), obj,transform.position);
         } // Kiểm tra tia Ray có trúng đối tượng nào không
 
         Debug.Log(hit.collider);

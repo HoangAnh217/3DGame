@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerData : MonoBehaviour,IDameable
 {   
     public static PlayerData instance;
-    private UI_IngameManager ingameManager;
+    private MainCanvas ingameManager;
     private GameController gameController;
 
     private int money = 200;
@@ -34,7 +34,7 @@ public class PlayerData : MonoBehaviour,IDameable
         maxHealth = 100;
         health = maxHealth;
         //hpText = healthPlayerSlider.transform.Find("HpText").GetComponent<TextMeshProUGUI>();
-        ingameManager = UI_IngameManager.Instance;
+        ingameManager = MainCanvas.Instance;
         gameController = GameController.Instance;
 
     }
@@ -42,7 +42,6 @@ public class PlayerData : MonoBehaviour,IDameable
     public void ReceiveMoney(int _money)
     {
         this.money += _money;
-        Debug.Log("Receive Money");
         ingameManager.UpdateMoneyUI(money);
     }
 
