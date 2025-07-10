@@ -1,22 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class PlayerData : MonoBehaviour,IDameable
 {   
+    public static PlayerData instance;
+    private UI_IngameManager ingameManager;
+    private GameController gameController;
 
     private int money = 200;
     private int health; // Ví dụ về máu người chơi
-    private int maxHealth = 5000; // Ví dụ về máu người chơi
+    private int maxHealth = 100; // Ví dụ về máu người chơi
 
-    // Dùng để truy cập giá trị tiền và máu
-    public static PlayerData instance;
 
-    private UI_IngameManager ingameManager;
-
-    [SerializeField] private Slider healthPlayer;
+    [SerializeField] private Slider healthPlayerSlider;
     private TextMeshProUGUI hpText;
 
 
@@ -33,16 +31,18 @@ public class PlayerData : MonoBehaviour,IDameable
     }
     private void Start()
     {
+        maxHealth = 100;
         health = maxHealth;
-        hpText = healthPlayer.transform.Find("HpText").GetComponent<TextMeshProUGUI>();
+        //hpText = healthPlayerSlider.transform.Find("HpText").GetComponent<TextMeshProUGUI>();
         ingameManager = UI_IngameManager.Instance;
+        gameController = GameController.Instance;
 
     }
     // Cập nhật tiền
     public void ReceiveMoney(int _money)
     {
         this.money += _money;
-        UnityEngine.Debug.Log("masda");
+        Debug.Log("Receive Money");
         ingameManager.UpdateMoneyUI(money);
     }
 
@@ -55,18 +55,19 @@ public class PlayerData : MonoBehaviour,IDameable
     public void ReceiveDamage(int damage)
     {
         this.health -= damage;
-        UpdateHealthUI(health,maxHealth); // Cập nhật UI máu
+        UpdateHealthUI(); // Cập nhật UI máu
+        if (health <= 0)
+        {
+            gameController.GameOver();
+        }
     }
-    public void UpdateHealthUI(int _health, int maxHealth)
+    private void UpdateHealthUI()
     {
-        healthPlayer.value = 100*_health / maxHealth;
+        healthPlayerSlider.value = health;
         //healthPlayer.transform.Find("hpText").GetComponent;
-        hpText.text = health.ToString();
-        
     }
     public int GetHealth()
     {
         return health;
     }
-    // Các hàm khác để quản lý tiền và máu người chơi nếu cần
 }

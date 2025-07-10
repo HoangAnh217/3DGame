@@ -4,17 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
-{   
-   /* public static GameController Instance;
+{
+    public static GameController Instance;
     private void Awake()
     {
         Instance = this;
     }
-
-    [SerializeField] private Slider healthSlider;
-
-    public void UpdateSlide()
+    public void GameOver()
     {
-        healthSlider.value = healthSlider.value - 10; // Giảm giá trị của thanh trượt
-    }*/
+        // Xử lý logic khi game over
+        Debug.Log("Game Over");
+        // Có thể thêm UI hoặc các hành động khác ở đây
+    }
+    public void WinGame()
+    {
+        Debug.Log("Win");
+    }
 }

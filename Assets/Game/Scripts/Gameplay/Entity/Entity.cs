@@ -147,7 +147,7 @@ public class Entity : TriBehaviour, IDameable
    
 
     protected virtual void MoveToNextWaypoint()
-    {
+    {   
         if (currentWaypointIndex < waypoints.Count)
         {
             transform.DOMove(waypoints[currentWaypointIndex].position + new Vector3(Random.Range(-0.25f, 0.25f), 0, Random.Range(-0.25f, 0.25f)), enemySO.speed)
@@ -156,8 +156,9 @@ public class Entity : TriBehaviour, IDameable
                 {
                     currentWaypointIndex++;
                     if (currentWaypointIndex >= waypoints.Count)
-                    {
-                        Attack();
+                    {   
+                        PlayerData.instance.ReceiveDamage(10);
+                        EnemySpawner.Instance.Despawm(transform);
                     }
                     else
                     {
@@ -165,11 +166,6 @@ public class Entity : TriBehaviour, IDameable
                         MoveToNextWaypoint();
                     }
                 });
-        }
-        else
-        {   /*
-            GameController.Instance.UpdateSlide();
-            EnemySpawner.Instance.Despawm(transform);*/
         }
     }
 
@@ -192,15 +188,12 @@ public class Entity : TriBehaviour, IDameable
     {
         if (waypoints.Count == 0) return;
 
-        // Tính toán hướng từ vị trí hiện tại đến waypoint
         Vector3 dir = waypoints[currentWaypointIndex].position - transform.position;
         Vector3 convertDir = new Vector3(dir.x, 0, dir.z);
 
-        // Chuyển đổi hướng thành góc quay mục tiêu
         float angle = Mathf.Atan2(convertDir.z, convertDir.x) * Mathf.Rad2Deg;
         Quaternion targetRotation = Quaternion.Euler(0, -angle + 90, 0);
 
-        // Bắt đầu Coroutine để xoay từ từ
         StartCoroutine(RotateOverTime(targetRotation, 0.2f)); // 0.5f là thời gian để xoay hoàn tất
     }
 
@@ -224,7 +217,7 @@ public class Entity : TriBehaviour, IDameable
 
     protected virtual void Attack()
     {
-        animator.SetBool("Attack", true);
+       // animator.SetBool("Attack", true);
     }
 
     public virtual void OnAttack()
@@ -234,7 +227,6 @@ public class Entity : TriBehaviour, IDameable
     }
 
     #endregion
-    #region effect
     private void SpawnCoin()
     {
         GameObject coin = Instantiate(coinPrefab, parentCoin.transform);
@@ -262,5 +254,4 @@ public class Entity : TriBehaviour, IDameable
 
         return canvasPosition;
     }
-    #endregion
 }
