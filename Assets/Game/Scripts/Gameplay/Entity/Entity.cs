@@ -7,12 +7,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Entity : TriBehaviour, IDameable
-{
-    [Header("Component")]
+{   
     [SerializeField] private Animator animator;
     [SerializeField] protected Transform model;
+    [Header("component scripts")]
+    private EffectSpawner effectSpawner;
 
-
+    //
     private EnemySO enemySO;
     private float health;
     private int level;
@@ -20,23 +21,17 @@ public class Entity : TriBehaviour, IDameable
     [Header("Movement")]
     private List<Transform> waypoints = new List<Transform>();
     private int currentWaypointIndex = 0;
-
     private WayPoint wayPoint ;
 
     [Header("effect game juice")]
     public Canvas canvas;
-    public GameObject coinPrefab; // Prefab đồng xu
-    public GameObject parentCoin;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider damageEffectSlider;
-    //[SerializeField] private GameObject damageTextPrefab;
     [SerializeField] private TextMeshPro textLevel;
     protected override void Start()
     {   
-        
         InitializeEntity();
         healthSlider.gameObject.SetActive(false);
-       // damageTextPrefab.SetActive(false);
     }
     public override void OnEnable()
     {
@@ -47,7 +42,6 @@ public class Entity : TriBehaviour, IDameable
         currentWaypointIndex = 0;
         waypoints.Clear();
         CreatePath();
-        //RotateModel();
         if (waypoints.Count == 0) return;
 
         Vector3 dir = waypoints[currentWaypointIndex].position - transform.position;
@@ -58,11 +52,12 @@ public class Entity : TriBehaviour, IDameable
     }
     protected virtual void InitializeEntity()
     {
-
         healthSlider.maxValue = enemySO.health;
         damageEffectSlider.maxValue = enemySO.health;
+
+        // component scripts
+        effectSpawner = EffectSpawner.Instance;
     }
-    // Set enemy data
     public void SetEnemySO(EnemySO newEnemySO,WayPoint _wayPoint)
     {
 
@@ -79,16 +74,13 @@ public class Entity : TriBehaviour, IDameable
         animator = GetComponentInChildren<Animator>();
         healthSlider = transform.Find("Canvas").GetComponentInChildren<Slider>();
         model = transform.Find("Model");
-        //textLevel = transform.Find("Canvas").Find("Hp").Find("Image").GetComponentInChildren<TextMeshPro>();
         LoadDataGameJuice();
     }
     protected virtual void LoadDataGameJuice()
     {
         canvas = transform.Find("Canvas").GetComponent<Canvas>();
         damageEffectSlider = transform.Find("Canvas").Find("Hp").Find("SliderDameReiceive").GetComponent<Slider>();
-       // damageTextPrefab = transform.Find("Canvas").Find("DamageText").gameObject;
-       /* parentCoin = GameObject.Find("Canvas").transform.Find("Money").gameObject;
-        coinPrefab = parentCoin.transform.Find("Image").gameObject;*/
+       
     }
     #region Damage Handling
 
@@ -108,35 +100,14 @@ public class Entity : TriBehaviour, IDameable
     }
     private void DisplayDamageText(int damage)
     {
-        // Tạo bản sao của TextMeshPro từ prefab
-        /* GameObject damageTextInstance = Instantiate(damageTextPrefab.gameObject, damageTextPrefab.transform.position, damageTextPrefab.transform.rotation);
-         RectTransform rectTransform = damageTextPrefab.GetComponent<RectTransform>();
-         // Đảm bảo bản sao được thêm vào Canvas (hoặc nơi bạn muốn)
-         damageTextInstance.transform.SetParent(transform.Find("Canvas"), false); // False giữ nguyên vị trí và tỷ lệ
-         damageTextInstance.GetComponent<RectTransform>().localPosition = rectTransform.localPosition;
-         // Hiển thị sát thương
-         damageTextInstance.SetActive(true);
-         TextMeshPro damageText = damageTextInstance.GetComponent<TextMeshPro>();*/
-        //damageText.text = damage.ToString(); // Hiển thị số lượng sát thương
-        // Di chuyển Text lên và làm mờ nó
-        /*damageTextInstance.transform.DOMoveY(damageTextInstance.transform.position.y + 0.5f, 0.8f) // Di chuyển lên trên
-            .SetEase(Ease.OutQuad); */// Hiệu ứng di chuyển mượt mà
-
-        // Làm mờ Text sau khi di chuyển xong
-        /*damageText.DOFade(0, 0.5f).OnKill(() => Destroy(damageTextInstance)); // Làm mờ text dần dần và hủy khi hoàn thành
-        damageTextPrefab.gameObject.SetActive(true);
-        TextMeshPro text = damageTextPrefab.GetComponent<TextMeshPro>();
-        text.text = damage.ToString();*/
         Transform obj =  EffectSpawner.Instance.Spawn(EffectSpawner.TextFloat, transform.position, Quaternion.identity);
         obj.GetComponent<TextMeshPro>().text = damage.ToString();
-        //obj.SetParent(transform);
     }
 
     public virtual void OnDead()
     {
+        effectSpawner.SpawnCoin(enemySO.moneyForDead,transform.position);
         EnemySpawner.Instance.Despawm(transform);
-        //GameObject coin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
-        SpawnCoin();
        
     }
 
@@ -227,31 +198,5 @@ public class Entity : TriBehaviour, IDameable
     }
 
     #endregion
-    private void SpawnCoin()
-    {
-        GameObject coin = Instantiate(coinPrefab, parentCoin.transform);
-        RectTransform coinRect = coin.GetComponent<RectTransform>();
-        coinRect.anchoredPosition = ConvertWorldToCanvasPosition(transform.position);
-        coinRect.DOAnchorPos(coinPrefab.GetComponent<RectTransform>().anchoredPosition, 1f).SetEase(Ease.InOutQuad).OnComplete(() =>
-        {
-            Destroy(coin); // Xóa coin sau khi bay tới UI
-            PlayerData.instance.ReceiveMoney(enemySO.moneyForDead);
-        });
-    }
-    public Vector2 ConvertWorldToCanvasPosition(Vector3 worldPosition)
-    {
-        // 1. Chuyển từ World Space sang Screen Space
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
-
-        // 2. Chuyển từ Screen Space sang Canvas Space
-        RectTransform canvasRect = parentCoin.GetComponent<RectTransform>();
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            screenPosition,
-            canvas.worldCamera,
-            out Vector2 canvasPosition
-        );
-
-        return canvasPosition;
-    }
+   
 }

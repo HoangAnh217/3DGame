@@ -9,46 +9,55 @@ public class EffectSpawner : Spawner
 {
     public static  EffectSpawner Instance { get; private set; }
     [Header("effect")]
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private GameObject coinPrefab;
+    private Canvas canvas;
     [SerializeField] private GameObject parentCoin;
 
     public static string TextFloat = "DamageText";
-   // private TextMeshPro damageTextPrefab;
     protected override void Awake()
     {
         base.Awake();
         Instance = this;
     }
-    public Tween SpawnAndMoveCoin(Vector3 vec)
+    protected override void Start()
     {
-        GameObject coin = Instantiate(coinPrefab, parentCoin.transform);
-        RectTransform coinRect = coin.GetComponent<RectTransform>();
-        coinRect.anchoredPosition = UtilityFuntion.ConvertWordSpaceToUI(transform.position,canvas);
-
-
-        // Bay từ vị trí bắt đầu đến vị trí UI mục tiêu
-        return coinRect.DOAnchorPos(coinPrefab.GetComponent<RectTransform>().anchoredPosition, 1f).SetEase(Ease.InOutQuad).OnComplete(() =>
+        base.Start();
+        GameObject canvasObj = GameObject.Find("MainCanvas");
+        canvas = canvasObj.GetComponent<Canvas>();
+        if (canvas == null)
         {
-            Despawm(coin.transform);
-        });
+            Debug.LogError("Canvas not found in the scene.");
+        }
     }
-    public void DisplayDamageText(int damage,Canvas canvasParent)
+    public void SpawnCoin(int coinValue,Vector3 pos)
+    {   
+        Vector2 canvasPosition = ConvertWorldToCanvasPosition(pos);
+        GameObject coin = Spawn("CoinPrefab", pos,Quaternion.identity).gameObject;
+        coin.transform.SetParent(parentCoin.transform, true); // Đặt coin vào parentCoin
+        RectTransform coinRect = coin.GetComponent<RectTransform>();
+        coinRect.anchoredPosition = canvasPosition;
+        coinRect.DOAnchorPos(new Vector2(-100,0), 1f)
+         .SetEase(Ease.InOutQuad)
+         .OnComplete(() =>
+         {
+             PlayerData.instance.ReceiveMoney(coinValue);
+             Despawm(coin.transform);
+         });
+    }
+    private Vector2 ConvertWorldToCanvasPosition(Vector3 worldPosition)
     {
-        Transform damageTextInstance = Spawn(prefabs[0], Vector3.zero, Quaternion.identity);
-        damageTextInstance.SetParent(canvasParent.transform);
-        damageTextInstance.SetParent(canvasParent.transform, false);
-        RectTransform rectTransform = damageTextInstance.GetComponent<RectTransform>();
-        rectTransform.localPosition = new Vector3(30, 130, 0);
-        rectTransform.localRotation = Quaternion.Euler(30,0,0);
-        damageTextInstance.gameObject.SetActive(true);
-        TextMeshPro damageText = damageTextInstance.GetComponent<TextMeshPro>();
-        damageTextInstance.GetComponent<TextMeshPro>().text = damage.ToString(); // Hiển thị số lượng sát thương
-        rectTransform.DOAnchorPosY(rectTransform.anchoredPosition.y+0.7f,0.5f)
-            .SetEase(Ease.OutQuad); // Hiệu ứng di chuyển mượt mà
+        // 1. Chuyển từ World Space sang Screen Space
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
 
-        // Làm mờ Text sau khi di chuyển xong
-        damageText.DOFade(0, 0.5f).OnKill(() => Despawm(damageTextInstance.transform));
+        // 2. Chuyển từ Screen Space sang Canvas Space
+        RectTransform canvasRect = parentCoin.GetComponent<RectTransform>();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            screenPosition,
+            canvas.worldCamera,
+            out Vector2 canvasPosition
+        );
+
+        return canvasPosition;
     }
     public override void Despawm(Transform obj)
     {
