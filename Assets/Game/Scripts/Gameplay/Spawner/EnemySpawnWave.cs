@@ -4,99 +4,132 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnWave : MonoBehaviour
-{   
+{
     public static EnemySpawnWave Instance;
-    public WaveDataSO waveDataSO;        // Tham chiếu đến WaveDataSO
-    public float waveInterval = 5.0f;   // Thời gian nghỉ giữa các wave
 
-    [SerializeField] private WayPoint _wayPoint;
-    [SerializeField] Transform portalGate;
+    [Header("Wave Data")]
+    public List<WaveDataSO> listWaveDataSO;      // Nhiều wave khác nhau
+    public float waveInterval = 5.0f;
 
-    private int currentWaveIndex = 0;   // Wave hiện tại
+    [Header("Spawn Points")]
+    [SerializeField] private List<WayPoint> wayPoints;         // Đường đi ứng với mỗi portal
+    [SerializeField] private List<Transform> portalGates;      // Cổng portal ứng với mỗi spawn point
+
+    private int currentWaveIndex = 0;
+    private int maxWave;
+    private int amountOfPointSpawn ; 
+
     private void Awake()
     {
         Instance = this;
     }
+
     void Start()
     {
-        currentWaveIndex = 0;
-        portalGate.localScale = Vector3.zero;
+        currentWaveIndex = -1;
+        amountOfPointSpawn = portalGates.Count;
+        // Đặt scale tất cả portal về 0
+        foreach (var gate in portalGates)
+            gate.localScale = Vector3.zero;
+
+        maxWave = 0;
+        foreach ( WaveDataSO waveDataSO in listWaveDataSO)
+        {
+            foreach (var wave in waveDataSO.waves)
+            {
+                if (maxWave < wave.waveIndexSpawn)
+                {
+                    maxWave = wave.waveIndexSpawn + 1;
+                }
+            }
+            
+        }
         StartWave();
     }
+
     public void StartWave()
     {
-        if (currentWaveIndex >= waveDataSO.waves.Count)
+        currentWaveIndex++;
+
+        if (currentWaveIndex >= maxWave)
         {
             Debug.Log("You win");
             GameController.Instance.WinGame();
             return;
         }
-        Debug.Log("asdasd");
 
         StartCoroutine(HandleStartWave());
     }
+
     private IEnumerator HandleStartWave()
     {
-        MainCanvas.Instance.ShowWaveNotification(currentWaveIndex + 1, waveDataSO.waves.Count, 2f);
+        MainCanvas.Instance.ShowWaveNotification(currentWaveIndex + 1, maxWave, 2f);
+        yield return new WaitForSeconds(2f);
 
-        Debug.Log("asdasd");
+        // Scale tất cả portal được dùng
+        for (int i = 0; i < amountOfPointSpawn ; i++)
+        {
 
-        yield return new WaitForSeconds(2f); // Đợi hiển thị xong wave
-        Debug.Log("asdasd");
-        portalGate.DOScale(Vector3.one, 1); // Có thể chạy cùng lúc với hiệu ứng wave
-        StartCoroutine(SpawnWave(waveDataSO.waves[currentWaveIndex]));
+            Debug.Log(listWaveDataSO[i].waves[currentWaveIndex].waveIndexSpawn +"  "+ currentWaveIndex);
+
+            if (listWaveDataSO[i].waves[currentWaveIndex].waveIndexSpawn == currentWaveIndex)
+            {
+                portalGates[i].DOScale(Vector3.one, 1);
+                StartCoroutine(SpawnWave(listWaveDataSO[i].waves[currentWaveIndex],i));
+            }
+        }
     }
 
-
-    private IEnumerator SpawnWave(EnemyWave wave)
-    {   
-        //UI_IngameManager.Instance.
+    private IEnumerator SpawnWave(EnemyWave wave,int pointSpawnIndex)
+    {
         yield return new WaitForSeconds(2f);
-        EnemySpawner.Instance.SetWave(wave);
+
+        EnemySpawner.Instance.UpdateAmountOfEnemy(wave);
+
         foreach (var enemyData in wave.enemies)
         {
             for (int i = 0; i < enemyData.count; i++)
             {
-                SpawnEnemy(enemyData.enemyData);
-                float rad = Random.Range(0.23f, 0.45f);
+                SpawnEnemy(enemyData.enemyData, pointSpawnIndex);
 
+                float rad = Random.Range(0.23f, 0.45f);
                 yield return new WaitForSeconds(rad);
             }
         }
-        portalGate.DOScale(Vector3.zero, 0.45f);
-        currentWaveIndex++;
+
+        for (int i = 0; i < amountOfPointSpawn; i++)
+        {
+            portalGates[i].DOScale(Vector3.zero, 0.45f);
+        }
+
     }
 
-    private void SpawnEnemy(EnemySO enemySO)
+    private void SpawnEnemy(EnemySO enemySO, int spawnIndex)
     {
         Vector2 randomCircle = Random.insideUnitCircle * 0.2f;
-        Vector3 randomPosition = new Vector3(randomCircle.x, 0f, randomCircle.y) + transform.position;
+        Vector3 spawnPos = portalGates[spawnIndex].position + new Vector3(randomCircle.x, 0f, randomCircle.y);
 
-        // Spawn enemy tại vị trí ngẫu nhiên
-        EnemySpawner.Instance.SpawnEnemy(enemySO, randomPosition, Quaternion.identity, _wayPoint);
+        WayPoint path = wayPoints[spawnIndex];
+
+        EnemySpawner.Instance.SpawnEnemy(enemySO, spawnPos, Quaternion.identity, path);
     }
 
-    #region for tutorial system
+    #region Tutorial Mode (giữ nguyên)
     public IEnumerator SpawnEnemyTutorial(WaveDataSO wave)
     {
-        portalGate.DOScale(Vector3.one, 1);
+        portalGates[0].DOScale(Vector3.one, 1);
         yield return new WaitForSeconds(1);
         foreach (var enemyData in wave.waves)
         {
-
-
             for (int i = 0; i < enemyData.enemies.Count; i++)
             {
-
                 Debug.Log(enemyData.enemies.Count);
-
-                SpawnEnemy(enemyData.enemies[i].enemyData);
+                SpawnEnemy(enemyData.enemies[i].enemyData, 0); // dùng portal 0 cho tutorial
                 float rad = Random.Range(0.23f, 0.45f);
-
                 yield return new WaitForSeconds(rad);
             }
         }
-        portalGate.DOScale(Vector3.zero, 0.45f);
+        portalGates[0].DOScale(Vector3.zero, 0.45f);
     }
     #endregion
 }

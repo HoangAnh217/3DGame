@@ -9950,10 +9950,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b9988b8217de34a9c5546b1e52d0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDataSO: {fileID: 11400000, guid: afa38a6b008849d4ca8667f3cf84e3d2, type: 2}
+  listWaveDataSO:
+  - {fileID: 11400000, guid: afa38a6b008849d4ca8667f3cf84e3d2, type: 2}
   waveInterval: 5
-  _wayPoint: {fileID: 1433478193}
-  portalGate: {fileID: 693691080}
+  wayPoints:
+  - {fileID: 427752229}
+  portalGates:
+  - {fileID: 693691080}
 --- !u!1 &392529780
 GameObject:
   m_ObjectHideFlags: 0

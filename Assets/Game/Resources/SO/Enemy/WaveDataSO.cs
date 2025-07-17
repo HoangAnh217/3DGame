@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class EnemyWave
 {
     public List<EnemyData> enemies = new List<EnemyData>(); // Danh sách enemy trong wave
-}
+    public int waveIndexSpawn;
+}   
 
 [System.Serializable]
 public class EnemyData

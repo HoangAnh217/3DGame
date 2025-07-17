@@ -11,7 +11,7 @@ public class EnemySpawner : Spawner
     public static string dragon = "Dragon";
 
     //private List<Transform> enemyWave = new List<Transform>();
-    private int numOfEnemy = 0;
+    [SerializeField] private int numOfEnemy = 0;
     protected override void Awake()
     {
         Instance = this;
@@ -27,7 +27,7 @@ public class EnemySpawner : Spawner
         enemySp.SetPositionAndRotation(spawnPos, rotation);
         enemySp.gameObject.SetActive(true);
     }
-    public virtual void SetWave(EnemyWave wave)
+    public void UpdateAmountOfEnemy(EnemyWave wave)
     {
         foreach (var enemyData in wave.enemies)
         {

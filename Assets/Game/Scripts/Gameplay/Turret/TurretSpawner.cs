@@ -10,4 +10,8 @@ public class TurretSpawner : Spawner
     {
         instance = this;
     }
+    public override Transform Spawn(Transform prefab, Vector3 spawnPos, Quaternion rotation)
+    {
+        return base.Spawn(prefab, spawnPos, rotation);
+    }
 }

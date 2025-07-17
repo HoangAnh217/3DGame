@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f05e6bef72c8fa5449c009c86aa3b0b3, type: 3}
-  m_Name: PointSpawn1
+  m_Name: PointSpawn2
   m_EditorClassIdentifier: 
   waves:
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
       count: 3
-    waveIndexSpawn: 0
+    waveIndexSpawn: 1
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
       count: 3
@@ -24,4 +24,4 @@ MonoBehaviour:
       count: 3
     - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
       count: 4
-    waveIndexSpawn: 1
+    waveIndexSpawn: 2

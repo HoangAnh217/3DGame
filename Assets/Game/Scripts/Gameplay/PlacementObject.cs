@@ -93,7 +93,7 @@ public class PlacementObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void UpdateCubeAndTurretPosition(RaycastHit hit)
     {
-        placementPosition = hit.transform.position + new Vector3(0, hit.point.y, 0);
+        placementPosition = hit.transform.position + new Vector3(0, hit.point.y - 0.1f, 0);
         cube.position = placementPosition + new Vector3(0, 0.75f, 0);
         draggedObject.transform.position = placementPosition;
     }
