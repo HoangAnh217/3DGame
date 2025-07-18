@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: PointSpawn2
   m_EditorClassIdentifier: 
   waves:
+  - enemies: []
+    waveIndexSpawn: -1
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
-      count: 3
+      count: 5
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 1
     waveIndexSpawn: 1
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
