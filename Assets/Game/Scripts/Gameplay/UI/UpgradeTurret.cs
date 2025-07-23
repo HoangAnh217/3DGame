@@ -52,7 +52,7 @@ public class UpgradeTurret : MonoBehaviour
         turretData.TurretObject.layer = 9;
 
         // Phát âm thanh và xóa turret
-        BuildingSystem.instance.PlayRemoveSound();
+       // BuildingSystem.instance.PlayRemoveSound();
         Destroy(turretData.TurretController.gameObject);
 
         // Ẩn panel nâng cấp
@@ -73,7 +73,7 @@ public class UpgradeTurret : MonoBehaviour
 
         // Nâng cấp turret
         turretData.TurretController.UpgradeTurret();
-        BuildingSystem.instance.PlayUpgradeSound();
+     //   BuildingSystem.instance.PlayUpgradeSound();
 
         // Ẩn panel nâng cấp
         HideUpgradePanel();

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SceneController : MonoBehaviour
 {
     public static SceneController instance;
-
     [SerializeField] private Animator transitionAnim;
 
     private void Awake()
@@ -14,7 +12,7 @@ public class SceneController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Không phá hủy object này khi chuyển scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -24,48 +22,41 @@ public class SceneController : MonoBehaviour
 
     public void SelectLevel(int level)
     {
-        StartCoroutine(SelectLevelPlay(level));
+        StartCoroutine(LoadSceneWithFade(level));
     }
 
-    public IEnumerator LoadLevel(int scenceIndex)
+    public IEnumerator LoadSceneWithFade(int sceneIndex)
     {
         // Bắt đầu fade out
         transitionAnim.SetTrigger("Start");
-        yield return new WaitForSeconds(0.6f); // Đợi fade out hoàn tất
+        yield return new WaitForSeconds(0.6f);
 
-        // Bắt đầu tải scene
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scenceIndex);
-        asyncLoad.allowSceneActivation = false; // Tạm thời không kích hoạt scene ngay lập tức
+        // Load scene bất đồng bộ
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        asyncLoad.allowSceneActivation = false;
 
-        while (!asyncLoad.isDone)
+        // Chờ load gần xong
+        Debug.Log("1");
+        while (asyncLoad.progress >=1)
         {
-            
-            // Đợi fade in hoàn tất trước khi kích hoạt scene
-            asyncLoad.allowSceneActivation = true;
-            transitionAnim.SetTrigger("End");
-            yield return new WaitForSeconds(0.3f); // Đợi fade in hoàn tất
-
-            // Kích hoạt scene
-
-            yield return null; // Chờ cho frame tiếp theo
+            yield return null;
         }
 
-        Debug.Log("Scene loaded and activated.");
-    }
-    public IEnumerator SelectLevelPlay(int level)
-    {
-        transitionAnim.SetTrigger("Start");
-
-        yield return new WaitForSeconds(1);
-
-        int nextSceneIndex = level;
-
-        if (nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
+        // Đợi thêm nếu muốn giữ loading một chút
+        yield return new WaitForSeconds(0.2f);
+        Debug.Log("2");
+        // Cho phép kích hoạt scene mới
+        asyncLoad.allowSceneActivation = true;
+        Debug.Log("3");
+        // Đợi scene hoàn toàn được kích hoạt
+        /*while (!asyncLoad.isDone)
         {
-            nextSceneIndex = 0;
-        }
+            yield return null;
+        }*/
 
-        SceneManager.LoadSceneAsync(nextSceneIndex);
+        // Fade in sau khi scene đã load
+
+        Debug.Log("4");
 
         transitionAnim.SetTrigger("End");
     }

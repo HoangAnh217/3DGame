@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Game/Scenes/LoadingScene.unity
+    guid: ae142cee6d9236c41846d283851ace53
+  - enabled: 1
     path: Assets/Game/Scenes/UISeance/Menu.unity
     guid: 81f64b773f26a18498ab2891fef46032
-  - enabled: 1
-    path: Assets/Game/Scenes/UISeance/Option.unity
-    guid: 563afd7c2d8134a4da42a6ce6042b205
   - enabled: 1
     path: Assets/Game/Scenes/UISeance/SwipeLevel.unity
     guid: 2f09c3e4f53b12844a3320c6694220a5
   - enabled: 1
     path: Assets/Game/Scenes/MainSence/Level/Level_1.unity
     guid: e98c9ea438dd60f4fb4f6e11dacede5f
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/Level2.unity
+    guid: 7928aa2c54ea1374f9be3ef471b0af1f
   m_configObjects: {}

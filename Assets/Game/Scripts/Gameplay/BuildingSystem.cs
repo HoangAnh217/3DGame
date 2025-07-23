@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
-    public static BuildingSystem instance;
+   /* public static BuildingSystem instance;
     public GridManager[] gridManager;
     //sound
     public static AudioSource audioSource;
@@ -61,5 +61,5 @@ public class BuildingSystem : MonoBehaviour
             audioSource.PlayOneShot(missPlaceSound);
         }
     }
-    #endregion
+    #endregion*/
 }

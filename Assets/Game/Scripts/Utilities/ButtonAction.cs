@@ -120,7 +120,7 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 SceneManager.LoadScene(sceneIndex);
             }
             else
-            StartCoroutine(scenceController.LoadLevel(sceneIndex));
+            StartCoroutine(scenceController.LoadSceneWithFade(sceneIndex));
         }
         else
         {

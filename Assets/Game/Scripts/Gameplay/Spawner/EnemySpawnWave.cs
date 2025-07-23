@@ -107,7 +107,7 @@ public class EnemySpawnWave : MonoBehaviour
     private void SpawnEnemy(EnemySO enemySO, int spawnIndex)
     {
         Vector2 randomCircle = Random.insideUnitCircle * 0.2f;
-        Vector3 spawnPos = portalGates[spawnIndex].position + new Vector3(randomCircle.x, 0f, randomCircle.y);
+        Vector3 spawnPos = portalGates[spawnIndex].position + new Vector3(randomCircle.x, -1.2f, randomCircle.y);
 
         WayPoint path = wayPoints[spawnIndex];
 

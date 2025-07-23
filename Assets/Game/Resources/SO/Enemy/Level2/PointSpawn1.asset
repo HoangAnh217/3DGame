@@ -20,6 +20,10 @@ MonoBehaviour:
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
       count: 3
+    waveIndexSpawn: -1
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 3
     - enemyData: {fileID: 11400000, guid: 89886f2d85ae8904183c97ecb42f1be2, type: 2}
       count: 3
     - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
