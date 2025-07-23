@@ -12,7 +12,7 @@ public class PlacementObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Transform turretPrefab;
     private GameObject draggedObject;
     [SerializeField] private Transform border;
-    [SerializeField] private Transform cube;
+    private Transform cube;
     private Material cubeMaterial;
 
     // Configuration
@@ -25,6 +25,7 @@ public class PlacementObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void Start()
     {
+        cube = GameObject.Find("SpawerEnemyAndSetUpPath").transform.Find("Cube");
         InitializeComponents();
     }
 
