@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Locale Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Locale
+  m_TableCollectionNameGuidString: 845d37493856fb545b3b778eb738393d
+  m_Entries:
+  - m_Id: 359671635345408
+    m_Key: setting_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288448
+    m_Key: bgm_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288449
+    m_Key: sfx_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288450
+    m_Key: language_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671681482752
+    m_Key: close_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671681482753
+    m_Key: apply_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 362139094056960
+    m_Key: en_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 362141166043136
+    m_Key: vi_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816183071703040
+    m_Key: menu_start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816184749424640
+    m_Key: menu_option
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816289367949312
+    m_Key: menu_exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1919965352394752
+    m_Key: tksU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1972617662660608
+    m_Key: again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1972747447009280
+    m_Key: continue
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1819380631354474520
+  references:
+    version: 2
+    RefIds:
+    - rid: 1819380631354474520
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1754107763314

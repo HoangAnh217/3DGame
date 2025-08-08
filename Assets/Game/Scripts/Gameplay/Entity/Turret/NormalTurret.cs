@@ -10,7 +10,7 @@ public class NormalTurret : TurretController
         // wait time 1s, 
         par.Play();
         base.Shoot();
-
+        audioManager.PlaySFX("ShootPistol",0.5f);
     }
 }
 

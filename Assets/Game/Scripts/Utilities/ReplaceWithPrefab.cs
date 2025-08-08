@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class ReplaceWithPrefab : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab; // Kéo Prefab vào đây trong Inspector
+  /*  [SerializeField] private GameObject prefab; // Kéo Prefab vào đây trong Inspector
 
     [MenuItem("Tools/Replace Selected With Prefab")]
     static void ReplaceSelectedWithPrefab()
@@ -41,5 +41,5 @@ public class ReplaceWithPrefab : MonoBehaviour
         }
 
         Debug.Log("Thay thế hoàn tất!");
-    }
+    }*/
 }

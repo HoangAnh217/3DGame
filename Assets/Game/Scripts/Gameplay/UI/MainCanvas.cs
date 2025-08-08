@@ -16,6 +16,7 @@ public class MainCanvas : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI waveNotificationText;
+    [SerializeField] private Button pauseButton;
 
     private UpgradeTurret upgradeTurret;
 
@@ -32,6 +33,11 @@ public class MainCanvas : MonoBehaviour
         playerData = PlayerData.instance;
         upgradeTurret = GetComponentInChildren<UpgradeTurret>();
         UpdateMoneyUI(playerData.GetMoney());
+
+        if (pauseButton != null)
+        {
+            pauseButton.onClick.AddListener(OnPauseButtonClicked);
+        }
     }
 
     public void UpdateMoneyUI(int currentMoney)
@@ -62,5 +68,8 @@ public class MainCanvas : MonoBehaviour
                     });
             });
     }
-
+    private void OnPauseButtonClicked()
+    {
+        PopupCanvas.Instance.ShowPauseUI();
+    }
 }

@@ -15,19 +15,37 @@ MonoBehaviour:
   waves:
   - enemies:
     - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
-      count: 3
-    waveIndexSpawn: 0
-  - enemies: []
-    waveIndexSpawn: -1
-  - enemies:
-    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
-      count: 3
-    waveIndexSpawn: -1
-  - enemies:
-    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
-      count: 3
-    - enemyData: {fileID: 11400000, guid: 89886f2d85ae8904183c97ecb42f1be2, type: 2}
-      count: 3
-    - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
       count: 4
+    waveIndexSpawn: 0
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 39b5303074f273c4dafce3d47bba4ced, type: 2}
+      count: 2
+    - enemyData: {fileID: 11400000, guid: 15d243a765bdb1045902dd32f3ca8ec3, type: 2}
+      count: 3
+    waveIndexSpawn: 1
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 52745e6dd736d34488835665273e1f7a, type: 2}
+      count: 2
+    - enemyData: {fileID: 11400000, guid: 930cb062e12b24b4fb138698997d83f7, type: 2}
+      count: 1
+    - enemyData: {fileID: 11400000, guid: 7e205cfa3bd5ca64fa4c4825165c3345, type: 2}
+      count: 3
     waveIndexSpawn: 2
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 7e205cfa3bd5ca64fa4c4825165c3345, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 15d243a765bdb1045902dd32f3ca8ec3, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 52745e6dd736d34488835665273e1f7a, type: 2}
+      count: 2
+    waveIndexSpawn: 3
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 52745e6dd736d34488835665273e1f7a, type: 2}
+      count: 4
+    - enemyData: {fileID: 11400000, guid: 03efbc2334d3cb747adb2e004d80c029, type: 2}
+      count: 4
+    - enemyData: {fileID: 11400000, guid: 52745e6dd736d34488835665273e1f7a, type: 2}
+      count: 4
+    waveIndexSpawn: 4

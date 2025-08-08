@@ -17,5 +17,5 @@ MonoBehaviour:
   health: 80
   speed: 1.6
   dameAttack: 15
-  moneyForDead: 44
+  moneyForDead: 30
   level: 2

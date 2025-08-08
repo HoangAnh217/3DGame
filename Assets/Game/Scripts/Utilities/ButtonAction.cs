@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -16,20 +14,25 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private TextMeshPro textMeshPro;
     private Image image;
     private Color colorOrigin;
+
     [SerializeField] private int sceneIndex;
-    [Header("infor")]
+
+    [Header("Info")]
     [SerializeField] private bool hasText = true;
     [SerializeField] private bool hasRotate = true;
-    [SerializeField] private Animator trasitionSenece;
+
+    [Header("Sound Settings")]
+    [SerializeField] private bool playHoverSound = true;
+    [SerializeField] private bool playClickSound = true;
+    [SerializeField] private string hoverSFXName = "ButtonHover"; // tên clip SFX trong AudioManager
+    [SerializeField] private string clickSFXName = "ButtonClick"; // tên clip SFX trong AudioManager
 
     private void Start()
     {
         yourButton = GetComponent<Button>();
         if (hasText)
         {
-            // Kiểm tra TextMeshProUGUI
             textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
-            // Nếu không phải TextMeshProUGUI, kiểm tra TextMeshPro
             if (textMeshProUGUI == null)
                 textMeshPro = GetComponentInChildren<TextMeshPro>();
         }
@@ -51,13 +54,12 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         image = GetComponent<Image>();
         colorOrigin = image.color;
 
-        // Đồng bộ màu và nội dung cho Text
         if (hasText)
         {
             if (textMeshProUGUI != null)
             {
                 textMeshProUGUI.color = image.color;
-                textMeshProUGUI.text = gameObject.name;
+             //   textMeshProUGUI.text = gameObject.name;
             }
             else if (textMeshPro != null)
             {
@@ -81,6 +83,10 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             else if (textMeshPro != null)
                 textMeshPro.color = Color.green;
         }
+
+        // Phát âm thanh hover nếu bật
+        if (playHoverSound && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("HoverButton",0.4f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -97,56 +103,36 @@ public class ButtonAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             else if (textMeshPro != null)
                 textMeshPro.color = colorOrigin;
         }
+        /*if (playHoverSound && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("HoverButton");*/
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         Vector3 scale = transform.localScale;
-        yourButton.transform.DOScale(transform.localScale * 1.1f, 0.1f).OnComplete(() =>
+        yourButton.transform.DOScale(scale * 1.1f, 0.1f).OnComplete(() =>
         {
             yourButton.transform.DOScale(scale, 0.1f);
         });
+
+        // Phát âm thanh click nếu bật
+        if (playClickSound && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Click");
     }
 
     public void LoadSence()
     {
         if (sceneIndex >= 0 && sceneIndex < SceneManager.sceneCountInBuildSettings)
         {
-           // SceneManager.LoadScene(sceneIndex);
-            SceneController scenceController  = SceneController.instance;
+            SceneController scenceController = SceneController.instance;
             if (scenceController == null)
-            {
-                Debug.Log("asdasd");
                 SceneManager.LoadScene(sceneIndex);
-            }
             else
-            StartCoroutine(scenceController.LoadSceneWithFade(sceneIndex));
+                StartCoroutine(scenceController.LoadSceneWithFade(sceneIndex));
         }
         else
         {
             Debug.LogError("Scene index is invalid or not set!");
         }
     }
-/*    private IEnumerator LoadLevel()
-    {
-        trasitionSenece.SetTrigger("Start");
-
-
-        yield return new WaitForSeconds(0.6f);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
-        asyncLoad.allowSceneActivation = false; 
-
-        while (!asyncLoad.isDone)
-        {
-            if (asyncLoad.progress >= 0.9f)
-            {
-                asyncLoad.allowSceneActivation = true;
-            }
-
-            yield return null; 
-        }
-
-        trasitionSenece.SetTrigger("End");
-        yield return new WaitForSeconds(0.3f);
-    }*/
 }

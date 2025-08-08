@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Locale_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 845d37493856fb545b3b778eb738393d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 359671635345408
+    m_Localized: Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288448
+    m_Localized: BGM Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288449
+    m_Localized: SFX Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671677288450
+    m_Localized: 'English
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671681482752
+    m_Localized: Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359671681482753
+    m_Localized: Apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 362139094056960
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 362141166043136
+    m_Localized: Vietnamese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816183071703040
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816184749424640
+    m_Localized: Option
+    m_Metadata:
+      m_Items: []
+  - m_Id: 816289367949312
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1919965352394752
+    m_Localized: Thank you for playing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1972617662660608
+    m_Localized: Again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1972747447009280
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

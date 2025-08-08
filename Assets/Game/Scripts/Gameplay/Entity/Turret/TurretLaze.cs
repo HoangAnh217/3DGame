@@ -60,6 +60,7 @@ public class TurretLaze : TurretController
            // remnants.Play();
             UpdateLineRenderer(firePoint.position, remnants.transform.localPosition);
             //lineRenderer.SetPosition(1, new Vector3(0,0distance) );
+            audioManager.PlaySFX("Laze");
         }
     }
 }

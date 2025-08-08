@@ -20,9 +20,11 @@ public class TurretController : Turret, IPointerEnterHandler, IPointerExitHandle
     [Header("Upgrade")]
     [SerializeField] private List<MeshRenderer> rendererOld;
     [SerializeField] private List<MeshRenderer> rendererUpgrade;
+    protected AudioManager audioManager;
     protected override void Start()
     {
         base.Start();
+        audioManager = AudioManager.Instance;
         rangeAttack.color = Color.green;
         rangeAttack.gameObject.SetActive(false);
         //upgradeUI.SetActive(false);

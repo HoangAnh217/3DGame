@@ -23,6 +23,7 @@ public class TurretRocket : TurretController
             effectPrefabs.transform.position = enemyTarget.position+Vector3.up*0.4f;
             effectPrefabs.Play();
             DealExplosionDamage(effectPrefabs.transform.position);
+            audioManager.PlaySFX("Shoot");
             // lay enemy xung quanh vi tri effect de gay dame aoe
             //effectPrefabs.gameObject.SetActive(false);
         });
@@ -41,42 +42,5 @@ public class TurretRocket : TurretController
             }
         }
     }
-    /*[SerializeField] private float timer = 1f;
-    [SerializeField] private Transform turretGun;
-    [SerializeField] private ParticleSystem particle;
-    protected override void Shoot()
-    {
-        StartCoroutine(DameEffect());
-    }
-    private IEnumerator DameEffect()
-    {
-        Transform obj = EffectSpawner.Instance.Spawn("RocketRainEffect", enemyTarget.transform.position, Quaternion.identity);
-        obj.gameObject.SetActive(true);
-        particle.Play();
-        yield return new WaitForSeconds(0.5f);
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, turretDataSO.maxShootDistance, LayerMask.GetMask("Enemy"));
-        foreach (var enemies in enemiesInRange)
-        {
-            Entity health = enemies.gameObject.GetComponent<Entity>();
-            if (health == null)
-            {
-                Debug.LogWarning("We hit something that doesn't have health.........");
-            }
-            else
-            {
-                health.ReceiveDamage(turretDataSO.damage);
-            }
-        }
-        yield return new WaitForSeconds(1.3f);
-        obj.GetComponentInChildren<VisualEffect>().Stop();
-        yield return new WaitForSeconds(1.3f) ;
-        EffectSpawner.Instance.Despawm(obj);
-    }
-    protected override void LookAtTarget()
-    {
-        base.LookAtTarget();
-        float dis = Vector3.Distance(ConvertPos3(enemyTarget), ConvertPos3(transform));
-        float angleZ = Mathf.Atan2(10f, dis / 2) * Mathf.Rad2Deg;
-        turretGun.localRotation = Quaternion.Euler(0, 0,- angleZ);
-    }*/
+   
 }

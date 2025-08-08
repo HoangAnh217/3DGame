@@ -2685,6 +2685,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9210209743998397380, guid: 3e86db6d24cd77b4198ab3580a7158b3, type: 3}
+      propertyPath: parentCoin
+      value: 
+      objectReference: {fileID: 1705441814}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6565,11 +6569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db42669ce0a8b5b409470ad0716baaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: []
-  placeSound: {fileID: 0}
-  removeSound: {fileID: 0}
-  upgradeSound: {fileID: 0}
-  missPlaceSound: {fileID: 0}
 --- !u!1001 &725860811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15625,6 +15624,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5148b84255068b4eaffc60e0e1c30a6, type: 3}
+--- !u!1 &1705441814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4384145546489765412, guid: 1a779c84cfcf7ed4ab5a5606d094cd9f, type: 3}
+  m_PrefabInstance: {fileID: 1187394981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1706936954
 PrefabInstance:
   m_ObjectHideFlags: 0

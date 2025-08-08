@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over");
+        Time.timeScale = 0; // Dừng game
         popupCanvas.ShowLoseGameUI();
     }
     public void WinGame()

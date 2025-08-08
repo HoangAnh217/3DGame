@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05e6bef72c8fa5449c009c86aa3b0b3, type: 3}
+  m_Name: PointSpawn2
+  m_EditorClassIdentifier: 
+  waves:
+  - enemies: []
+    waveIndexSpawn: -1
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 5
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 1
+    waveIndexSpawn: 1
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 0ec8411625bca6741aa9c9adebabdac8, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 89886f2d85ae8904183c97ecb42f1be2, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
+      count: 4
+    waveIndexSpawn: 2
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: aa24695757ef17e4cb965c7303016a26, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 89886f2d85ae8904183c97ecb42f1be2, type: 2}
+      count: 3
+    - enemyData: {fileID: 11400000, guid: 8963fc52f310e6e479b218d5759d5054, type: 2}
+      count: 4
+    waveIndexSpawn: 3
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: c094efa3e994b234ea2bf4fc46f71af2, type: 2}
+      count: 5
+    - enemyData: {fileID: 11400000, guid: 0a08c0e67fc7ad6419e526054496e22f, type: 2}
+      count: 2
+    - enemyData: {fileID: 11400000, guid: c10a45841e604904e8e8eaa2354d9a95, type: 2}
+      count: 4
+    waveIndexSpawn: 4
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: 1d94fccb6751c0648a6845a36f971428, type: 2}
+      count: 2
+    - enemyData: {fileID: 11400000, guid: 082a0ef43b3006a48ba695305fe32968, type: 2}
+      count: 4
+    - enemyData: {fileID: 11400000, guid: 0a08c0e67fc7ad6419e526054496e22f, type: 2}
+      count: 3
+    waveIndexSpawn: 5
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: aa24695757ef17e4cb965c7303016a26, type: 2}
+      count: 3
+    waveIndexSpawn: -1
+  - enemies:
+    - enemyData: {fileID: 11400000, guid: c094efa3e994b234ea2bf4fc46f71af2, type: 2}
+      count: 6
+    - enemyData: {fileID: 11400000, guid: 082a0ef43b3006a48ba695305fe32968, type: 2}
+      count: 5
+    waveIndexSpawn: 7

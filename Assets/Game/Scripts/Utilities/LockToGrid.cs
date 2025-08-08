@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode] // Cho phép script hoạt động trong chế độ chỉnh sửa (Edit Mode)
 public class LockToGrid : MonoBehaviour
 {
-    // Kích thước của một ô lưới (grid cell size)
+  /*  // Kích thước của một ô lưới (grid cell size)
     public int tileSize = 1;
 
     // Độ lệch (offset) tùy chỉnh để đặt vị trí khởi điểm của lưới
@@ -30,5 +30,5 @@ public class LockToGrid : MonoBehaviour
             // Cập nhật vị trí của đối tượng theo vị trí đã căn chỉnh
             transform.position = snappedPosition;
         }
-    }
+    }*/
 }

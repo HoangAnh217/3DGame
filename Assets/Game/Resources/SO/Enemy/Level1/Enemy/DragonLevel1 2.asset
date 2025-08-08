@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 1
   enemyName: Dragon
   health: 300
-  speed: 2.6
+  speed: 2.36
   dameAttack: 69
   moneyForDead: 64
   level: 3
